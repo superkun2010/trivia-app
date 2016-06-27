@@ -1,2 +1,55 @@
-<h1>{{title}}</h1>
-<p>Welcome to {{title}}</p>
+<div class="row">
+    <form class="col s12" method="post" action="/signup">
+      <div class="row">
+        <div class="input-field col s6">
+          <input id="user_name" type="text" class="validate" name="user_name">
+          <label for="user_name">User Name</label>
+        </div>
+      </div>
+      <div class="row">
+        <div class="input-field col s6">
+          <input id="password" type="password" class="validate" name="password">
+          <label for="password">Password</label>
+        </div>
+      </div>
+      <div class="row">
+        <div class="input-field col s6">
+          <input id="email" type="email" class="validate" name="email">
+          <label for="email">Email</label>
+        </div>
+      </div>
+      <div class="row">
+         <div class="col s6">
+            <p class="left-align">
+                <button class="btn btn-large waves-effect waves-light" type="submit" value="Sign Up">Signup
+                </button>
+            </p>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+<div class="row">
+    <form class="col s12" method="post" action="/login">
+      <div class="row">
+        <div class="input-field col s6">
+          <input id="user_name" type="text" class="validate" name="user_name">
+          <label for="user_name">User Name</label>
+        </div>
+      </div>
+      <div class="row">
+        <div class="input-field col s6">
+          <input id="password" type="password" class="validate" name="password">
+          <label for="password">Password</label>
+        </div>
+      </div>
+      <div class="row">
+         <div class="col s6">
+            <p class="left-align">
+                <button class="btn btn-large waves-effect waves-light" type="submit" value="login">Log In</button>
+            </p>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
