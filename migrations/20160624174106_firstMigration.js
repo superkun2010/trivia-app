@@ -17,20 +17,20 @@ exports.up = function(knex, Promise) {
     knex.schema.createTable('questions', function(table) {
     	table.increments();
     	table.string('question_text').unique();
-      table.string('question_type').unique();
+      table.string('question_type');
     })
   ])
 
   .then(function() {  
     return knex.schema.createTable('games', function(table) {
       table.increments();
-      table.integer('category_id').references('categories.id').notNullable();
+      table.integer('category_id').references('categories.id').notNullable().onDelete('CASCADE');
     });
   })
   .then(function() {
     return knex.schema.createTable('answers', function(table) {
     	table.increments();
-    	table.integer('question_id').references('questions.id').notNullable();
+    	table.integer('question_id').references('questions.id').notNullable().onDelete('CASCADE');
       table.string('answer_text').notNullable();
       table.boolean('answer_bool').notNullable();
     });
@@ -38,34 +38,36 @@ exports.up = function(knex, Promise) {
   .then(function(){
     return knex.schema.createTable('category_questions', function(table) {
       table.increments();
-      table.integer('question_id').references('questions.id').notNullable();
-      table.integer('category_id').references('categories.id').notNullable();
+      table.integer('question_id').references('questions.id').notNullable().onDelete('CASCADE');
+      table.integer('category_id').references('categories.id').notNullable().onDelete('CASCADE');
     });
   })
   .then(function(){
     return knex.schema.createTable('user_games', function(table) {
       table.increments();
-      table.integer('user_id').references('users.id').notNullable();
-      table.integer('game_id').references('games.id').notNullable();
+      table.integer('user_id').references('users.id').notNullable().onDelete('CASCADE');
+      table.integer('game_id').references('games.id').notNullable().onDelete('CASCADE');
     });
   })
   .then(function(){ 
     return knex.schema.createTable('game_questions', function(table) {
       table.increments();
-      table.integer('game_id').references('games.id').notNullable();
-      table.integer('question_id').references('questions.id').notNullable();
+      table.integer('game_id').references('games.id').notNullable().onDelete('CASCADE');
+      table.integer('question_id').references('questions.id').notNullable().onDelete('CASCADE');
     });
   })
   .then(function(){
     return knex.schema.createTable('user_questions', function(table) {
       table.increments();
-      table.integer('game_id').references('games.id').notNullable();
-      table.integer('question_id').references('questions.id').notNullable();
-      table.integer('user_id').references('users.id').notNullable();
-      table.integer('answers_id').references('answers.id').notNullable();
+      table.integer('game_id').references('games.id').notNullable().onDelete('CASCADE');
+      table.integer('question_id').references('questions.id').notNullable().onDelete('CASCADE');
+      table.integer('user_id').references('users.id').notNullable().onDelete('CASCADE');
+      table.integer('answers_id').references('answers.id').notNullable().onDelete('CASCADE');
     });
   })
-  // .catch()
+  .catch(function(error) {
+    console.log(error);
+  })
 };
 
 exports.down = function(knex, Promise) {
