@@ -11,7 +11,10 @@ var redis = require('redis');
 var passport = require('passport');
 
 var routes = require('./routes/index');
-var users = require('./routes/users');
+var category = require('./routes/category');
+var question = require('./routes/question');
+var game = require('./routes/game');
+var api = require('./routes/api');
 
 var app = express();
 
@@ -28,7 +31,10 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', routes);
-app.use('/users', users);
+app.use('/api', api);
+app.use('/game', game);
+app.use('/category', category);
+app.use('/question', question);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
