@@ -8,11 +8,7 @@ router.get('/mystats', function(req, res, next) {
 });
 
 router.get('/start', function(req, res, next) {
-  	res.sendfile('public/html/startpage.html');
-});
-
-router.get('/play', function(req, res, next) {
-  	res.sendfile('public/html/gameplay.html');
+  	res.render('game');
 });
 
 

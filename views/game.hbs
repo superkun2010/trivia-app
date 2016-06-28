@@ -1,0 +1,49 @@
+<div class="container">
+    <div class="row" id="game-start">
+        <form action="/game/play" method="GET" class="col s12">
+            <div class="input-field col m6">
+                <input placeholder="world capitals" id="category" type="text" class="validate" name="category">
+                <label for="category">Category</label>
+            </div>
+             <div class="input-field col m6">
+                <input placeholder="1" id="num-of-questions" type="text" class="validate" name="numOfQuestions">
+                <label for="numOfQuestions">Number of Questions</label>
+            </div>
+                <!-- <div class="input-field col m6">
+                    <select name="category">
+                        <option value="" disabled selected>Choose your Category</option>
+                        <option value="world capitals">World Capitals</option>
+                        <option value="functions">Functions</option>
+                        <option value="javasript">Javascript</option>
+                    </select>
+                    <label for="category">Category</label>
+                </div>
+                <div class="input-field col m6">
+                      <select name="numOfQuestions">
+                          <option value="" disabled selected># of Questions</option>
+                          <option value="1">1</option>
+                          <option value="2">2</option>
+                          <option value="3">3</option>
+                      </select>
+                      <label for="numOfQuestions">Number of Questions</label>
+                </div> -->
+            <div class="input-field col m6">
+            	<button id="play-button" class="btn waves-effect waves-light" type="submit" name="action">Play<i class="material-icons right">send</i>
+            	</button>
+            </div>
+        </form>
+    </div>
+    <div class="row" id="game-play">
+    	<h1 id="title-category"></h1>
+    	<div id="answer">
+  
+    	</div>
+    	<div>
+    		<p id="question"></p>
+    	</div>
+    	<div id="button-box">
+			
+    	</div>
+
+    </div>	
+</div>
