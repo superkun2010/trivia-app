@@ -12,7 +12,7 @@ const router = express.Router();
 router.get('/', (req, res, next) => {
   knex('categories').select()
   .then( (categories) => {
-    res.render('category', {categories: category});
+    res.render('category_name', {categories: categories});
   });
 });
 
