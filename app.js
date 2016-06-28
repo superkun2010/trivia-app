@@ -10,6 +10,7 @@ var pg = require('pg');
 var redis = require('redis');
 
 var routes = require('./routes/index');
+var auth = require('./routes/auth');
 var category = require('./routes/category');
 var question = require('./routes/question');
 var game = require('./routes/game');
@@ -30,6 +31,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', routes);
+app.use('/auth', auth);
 app.use('/api', api);
 app.use('/game', game);
 app.use('/category', category);
