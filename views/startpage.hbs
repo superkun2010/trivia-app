@@ -1,0 +1,35 @@
+<div class="container">
+	<div class="row">
+		<form action="/api/question" method="POST" class="col s12">
+			
+				<div class="input-field col m6">
+          			<input placeholder="Placeholder" id="first_name" type="text" class="validate" name="first_name">
+          			<label for="first_name">First Name</label>
+       			</div>
+
+				<div class="input-field col m6">
+				    <select name="category">
+				      	<option value="" disabled selected>Choose your Category</option>
+				      	<option value="world capitals">World Capitals</option>
+				      	<option value="functions">Functions</option>
+				      	<option value="javasript">Javascript</option>
+				    </select>
+	    			<label for="category">Category</label>
+				</div>
+				<div class="input-field col m6">
+					    <select name="numOfQuestions">
+					      	<option value="" disabled selected># of Questions</option>
+					      	<option value="1">1</option>
+					      	<option value="2">2</option>
+					      	<option value="3">3</option>
+					    </select>
+		    			<label for="numOfQuestions">Number of Questions</label>
+				</div>
+				<div class="input-field col m6">
+					<button class="btn waves-effect waves-light" type="submit" name="action">Play<i class="material-icons right">send</i>
+					</button>
+				</div>
+			
+		</form>
+	</div>
+</div>

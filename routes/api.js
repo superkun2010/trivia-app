@@ -13,7 +13,8 @@ router.get('/category', function (req, res, next) {
 	})
 })
 
-router.get('/question', function (req, res, next) {
+router.post('/question', function (req, res, next) {
+	console.log(req.body.first_name);
 	var category = 'world capitals';
 	var numOfQuestions = 2;
 	// var category = req.body.category;
