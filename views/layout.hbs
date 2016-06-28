@@ -2,7 +2,7 @@
 <html>
   <head>
     <title>{{title}}</title>
-      <link rel="stylesheet" type="text/css" href="/public/stylesheets/style.css">
+      <link rel="stylesheet" type="text/css" href="/stylesheets/style.css">
       <!--Import Google Icon Font-->
       <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
       <!-- Compiled and minified CSS -->
@@ -11,7 +11,7 @@
       <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   </head>
     <body>
-        <nav>
+        <nav id="top-nav">
             <div class="nav-wrapper blue">
               <a href="#" class="brand-logo center">Trivia</a>
               <ul id="nav-mobile" class="left hide-on-med-and-down">
@@ -20,14 +20,18 @@
                 <li><a href="/game">My Stats</a></li>
               </ul>
               <ul id="nav-mobile" class="right hide-on-med-and-down">
-                <li><a href="/logout">Logout</a></li>
+                <li><a href="/">Hello, {{user}}</a></li>
+                <li><a href="/auth/logout">Logout</a></li>
               </ul>
             </div>
           </nav>
+        <div class="main">
         {{{body}}}
+        </div>
     <!--Import jQuery before materialize.js-->
     <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
     <!-- Compiled and minified JavaScript -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.6/js/materialize.min.js"></script>
+    <script src="/javascripts/gameplay.js"></script>
   </body>
 </html>
