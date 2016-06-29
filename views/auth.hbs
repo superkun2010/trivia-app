@@ -1,6 +1,6 @@
 <container>
     <div class="row">
-        <form class="col s6" method="post" action="/signup">
+        <form class="col s6" method="post" action="/auth/signup">
           <div class="row">
             <div class="input-field col s6">
               <input id="user_name" type="text" class="validate" name="user_name">
@@ -28,7 +28,7 @@
             </div>
           </div>
         </form>
-        <form class="col s6" method="post" action="/login">
+        <form class="col s6" method="post" action="/auth/login">
           <div class="row">
             <div class="input-field col s6">
               <input id="user_name" type="text" class="validate" name="user_name">
@@ -47,7 +47,13 @@
                     <button class="btn btn-large waves-effect waves-light nav-wrapper blue" type="submit" value="login">Log In</button>
                 </p>
             </div>
+          </div>
         </form>
-      </div>
-    </div>
+        <div class="row">
+            <form method="get" action="/auth/login/facebook">
+                  <button class="loginBtn loginBtn--facebook">
+                      Login with Facebook
+                  </button>
+             </form>
+        </div>
 </container>

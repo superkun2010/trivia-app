@@ -34,11 +34,12 @@ passport.use(new FacebookStrategy({
     enableProof: true
   },
   function(accessToken, refreshToken, profile, cb) {
+      console.log(profile)
       knex('users').where({
           facebook_oauth: profile.id
       }).first().then(function(user) {
         if (!user) {
-          knex('users').insert({ facebook_oauth: profile.id, user_name: profile.displayName, email: 'facebookUser'})
+          knex('users').insert({ facebook_oauth: profile.id, user_name: profile.displayName, email: profile.emails})
           .then(function (err, profile) {
             return cb(null, profile);
           });
@@ -64,14 +65,14 @@ router.get('/login/facebook', function (req, res, next) {
     res.clearCookie('userID');
     next();
     },
-   passport.authenticate('facebook')
+   passport.authenticate('facebook', { scope: 'email' })
 );
 
 router.get('/login/facebook/callback',
     passport.authenticate('facebook', { failureRedirect: '/' }),
     function(req, res) {
     // Successful authentication, redirect home.
-    res.redirect('/');
+    res.redirect('/game');
 });
 
 // Signup/Login with bcrypt
@@ -90,7 +91,7 @@ router.post('/signup', function(req, res, next) {
               email: req.body.email,
               password: hash
             }).then(function(){
-              res.redirect('/');
+              res.redirect('/game');
             });
         } else {
             res.redirect('/game');
@@ -111,25 +112,25 @@ router.post('/login', function(req, res, next) {
         user_name: req.body.user_name,
     }).first().then(function(user) {
         if (user && bcrypt.compareSync(req.body.password, user.password)) {
-            res.cookie('userID', user.id, {
-                signed: true
-            });
+            req.session.userID = user.id;
+            req.session.username = user.user_name;
+            console.log(req.session);
             res.redirect('/game');
         } else {
-            res.redirect('/');
+            res.redirect('/auth/login');
+            //add error for not having the right password
         }
     });
 });
 
 router.get('/logout', function(req, res) {
-    req.logout();
-    res.clearCookie('session');
-    res.clearCookie('session.sig');
-    res.clearCookie('userID');
+    req.session = null;
     res.redirect('/');
 });
 
 router.use(function (req, res, next) {
+    console.log(req.session)
+    console.log('got here')
     if (req.session.passport.user.displayName) {
         req.session.user = req.session.passport.user.displayName
     }
@@ -137,6 +138,11 @@ router.use(function (req, res, next) {
 })
 
 router.get('/', function(req, res, next) {
-    res.render('index', { user: req.session.user });
+    console.log('got here 2')
+    console.log(req)
+    res.render('index', { user: req.session.user});
 });
+
+
+
 module.exports = router;
