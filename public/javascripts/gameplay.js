@@ -55,6 +55,8 @@ $('#play-button').on('click', function (event) {
 					currentButton.html(game.questions[page].answers[i].text);
 					currentButton.on('click', function(event) {
 						let answerNum = $(event.target).attr('id');
+						game.responses.push(game.addResponse(page,answerNum));
+						console.log(game.responses);
 						let correct = game.questions[page].answers[answerNum].correct;
 						newPage(correct);
 						event.preventDefault();
@@ -74,8 +76,12 @@ $('#play-button').on('click', function (event) {
 						$('#correct-box').html('You are a failure');
 					}
 				} else {
-					console.log(pageCount);
+					resultsPage();
 				}
+			}
+
+			function resultsPage() {
+				
 			}
 
 		},
