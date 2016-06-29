@@ -1,0 +1,18 @@
+<h3><center>Update these categories...{{title}}</h3>
+
+
+<ul class="category_list"  align= 'center'>
+  {{#each categories}}
+  <button class="waves-effect waves-light btn" onclick = "javascript:location.href = '/category/{{this.id}}';"> {{this.category_name}}
+  {{/each}}
+</ul>
+
+<br>
+
+<h3><center>OR...</h3>
+
+<br>
+<ul align = 'center'>
+  <button class="waves-effect waves-light btn" onclick = "javascript:location.href = '/createNew'" ><center>Create your own category</button>
+</ul>
+<script src="https://code.jquery.com/jquery-3.0.0.min.js"></script>

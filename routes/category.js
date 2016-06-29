@@ -12,22 +12,42 @@ const router = express.Router();
 router.get('/', (req, res, next) => {
   knex('categories').select()
   .then( (categories) => {
-    res.render('category_name', {categories: categories});
+    console.log(categories);
+    res.render('categories', {categories: categories});
   });
 });
 
 router.get('/:id', (req, res, next) => {
   console.log(req.params.id); //figure out said ID
-  knex('categories').select().where('id', req.params.id)
+  knex('categories').select().where('id', "=" ,req.params.id)
   .then( (categories) => {
-    res.render('category', {categories: category});
+    res.render('category', {categories: categories});
   });
 });
 
 
-router.get('/createNew', function(req, res, next) {
+router.post('/createNew', function(req, res, next) {
+  console.log("going to new page")
   res.send('new category landing page');
 });
+
+// router.put('/:userId/booklists/:booklistId', function(req, res, next) {
+//   knex("authors").insert({name: req.body.author}).then(function(authorId) {
+//     knex("books").insert({title: req.body.title, year_published: parseInt(req.body.year)}).then(function(bookId) {
+//       knex("authors_books").insert({author_id: parseInt(authorId[0]), book_id: parseInt(bookId[0])})
+//       knex("books_genres").insert({book_id: parseInt(bookId[0]), genre_id: parseInt(req.body.genre)})
+//       knex("booklists_books").insert({
+//         read: req.body.read,
+//         "read-date": req.body.readDate,
+//         booklist_id: parseInt(req.params.booklistId),
+//         book_id: bookId[0]
+//       })
+//       .then(function(data) {
+//         res.json(data);
+//       })
+//     })
+//   })
+// }); adding to database
 
 
 // router.post('/search', (req, res, next) => {
