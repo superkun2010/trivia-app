@@ -1,3 +1,37 @@
-<h3><center>Updating {{#each categories}}
-{{this.category_name}}
-{{/each}}...{{title}}</h3>
+<h3><center>Add a question to the {{#each categories}} category,
+'{{this.category_name}}'
+{{/each}}{{title}}</h3>
+
+<div class="container">
+    <div class="row" id="game-start">
+        <form action="/category/createNewCategory" method="POST" class="col s12">
+            <div class="input-field col m6">
+                <input placeholder="World Capitals" id="category" type="text" class="validate" name="category">
+                <label for="category">Category Name</label>
+            </div>
+            <div class="input-field col m6">
+               <input placeholder="Burkina Faso" id="correct-answer" type="text" class="validate" name="numOfQuestions">
+               <label for="numOfQuestions">Correct Answer</label>
+           </div>
+           <div class="input-field col m6">
+              <input placeholder="Beijing" id="incorrect-answer" type="text" class="validate" name="numOfQuestions">
+              <label for="numOfQuestions">Incorrect Answer</label>
+          </div>
+          <div class="input-field col m6">
+             <input placeholder="Paris" id="incorrect-answer" type="text" class="validate" name="numOfQuestions">
+             <label for="numOfQuestions">Incorrect Answer</label>
+         </div>
+         <div class="input-field col m6">
+            <input placeholder="London" id="incorrect-answer" type="text" class="validate" name="numOfQuestions">
+            <label for="numOfQuestions">Incorrect Answer</label>
+        </div>
+
+            <div class="input-field col m6">
+            	<button id="play-button" class="btn waves-effect waves-light blue" type="submit" name="action">Submit Question<i class="material-icons right"></i>
+            	</button>
+            </div>
+        </form>
+    </div>
+
+
+</div>
