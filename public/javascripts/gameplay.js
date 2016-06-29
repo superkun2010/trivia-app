@@ -15,6 +15,7 @@ $('#play-button').on('click', function (event) {
 			$('#game-start').remove();
 			$('#game-play').show();
 			let game = new Game();
+			let pageCount = 0;
 			game.category = category;
 
 			let questionIds = []
@@ -43,15 +44,39 @@ $('#play-button').on('click', function (event) {
 			console.log(game);
 
 			$('#title-category').html(game.category);
-			$('#question').html(game.questions[0].questionText);
+			
+			renderQuestion(0);
 
-			for (let i = 0; i < game.questions[0].answers.length; i++) {
-				let currentButton = $('<a>').addClass('waves-effect waves-light btn');
-				currentButton.html(game.questions[0].answers[i].text);
-				currentButton.appendTo('#button-box');
+			function renderQuestion(page) {
+				$('#question').html(game.questions[page].questionText);
+				for (let i = 0; i < game.questions[page].answers.length; i++) {
+					let currentButton = $('<a>').addClass('answer-buttons waves-effect waves-light btn');
+					currentButton.attr('id', i.toString());
+					currentButton.html(game.questions[page].answers[i].text);
+					currentButton.on('click', function(event) {
+						let answerNum = $(event.target).attr('id');
+						let correct = game.questions[page].answers[answerNum].correct;
+						newPage(correct);
+						event.preventDefault();
+					})
+					currentButton.appendTo('#button-box');
+				}
 			}
 			
-
+			function newPage(prevAnswer) {
+				pageCount++;
+				if (pageCount < game.questions.length) {
+					$('.answer-buttons').remove();
+					renderQuestion(pageCount);
+					if (prevAnswer) {
+						$('#correct-box').html('correct');
+					} else {
+						$('#correct-box').html('You are a failure');
+					}
+				} else {
+					console.log(pageCount);
+				}
+			}
 
 		},
 		error: function (error) {
