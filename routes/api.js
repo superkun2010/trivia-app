@@ -50,15 +50,18 @@ router.post('/responses', function (req,res,next) {
 		return knex('user_games').insert({user_id: userId, game_id: gameId[0]}).returning('game_id')
 	}).then(function(gameId) {
 		console.log(gameId);
-		
+		var promises = [];
 		for (var i = 0; i < responses.length; i++) {
-			return knex('game_questions').insert({game_id: gameId[0], question_id: responses[i].questionId});
+			promises.push(knex('game_questions').insert({game_id: gameId[0], question_id: responses[i].questionId}));
 		}
 
 		for (var j = 0; j < responses.length; j++) {
-			return knex('user_questions').insert({game_id: gameId[0], question_id: responses[i].questionId, user_id: userId, answers_id: responses[i].answerId})
+			promises.push(knex('user_questions').insert({game_id: gameId[0], question_id: responses[j].questionId, user_id: userId, answers_id: responses[j].answerId}));
 		}
 
+		return Promise.all(promises);
+	}).catch(function (error) {
+		console.log(error);
 	})
 	
 
