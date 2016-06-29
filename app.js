@@ -16,6 +16,11 @@ var question = require('./routes/question');
 var game = require('./routes/game');
 var api = require('./routes/api');
 
+var cookieParser = require('cookie-parser');
+var cookieSession = require('cookie-session');
+var FacebookStrategy = require('passport-facebook').Strategy;
+var passport = require('passport');
+
 var app = express();
 
 // view engine setup
@@ -27,8 +32,64 @@ app.set('view engine', 'hbs');
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-// app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+
+var FACEBOOK_APP_ID = process.env.FACEBOOK_APP_ID;
+var FACEBOOK_APP_SECRET = process.env.FACEBOOK_APP_SECRET;
+
+// Initialize Passport and restore authentication state, if any, from the
+// session.
+app.use(passport.initialize());
+app.use(passport.session());
+
+app.use(cookieParser(process.env.SECRET));
+app.use(cookieSession({
+  name: 'session',
+  keys: [
+    process.env.SESSION_KEY1,
+    process.env.SESSION_KEY2,
+    process.env.SESSION_KEY3
+  ]
+}));
+
+passport.use(new FacebookStrategy({
+    clientID: FACEBOOK_APP_ID,
+    clientSecret: FACEBOOK_APP_SECRET,
+    callbackURL: "http://localhost:3000/auth/login/facebook/callback",
+    enableProof: true,
+    profileFields: ['id', 'emails', 'displayName']
+  },
+  function(accessToken, refreshToken, profile, cb) {
+      console.log(profile)
+      knex('users').where({
+          facebook_oauth: profile.id
+      }).first().then(function(user) {
+        if (!user) {
+          knex('users').insert({ facebook_oauth: profile.id, user_name: profile.displayName, email: profile.emails[0].value})
+          .then(function () {
+            return cb(null, profile);
+          });
+        } else {
+          return cb(null, profile);
+        }
+     })
+  }
+));
+
+passport.serializeUser(function(user, cb) {
+  cb(null, user);
+});
+
+passport.deserializeUser(function(obj, cb) {
+  cb(null, obj);
+});
+
+app.use(function (req, res, next) {
+    if (req.session && req.session.passport && req.session.passport.user && req.session.passport.user.displayName) {
+        req.session.username = req.session.passport.user.displayName;
+    }
+    next();
+});
 
 app.use('/', routes);
 app.use('/auth', auth);
