@@ -6,6 +6,19 @@ a {
   color: #00B7FF;
 }
 
+#auth-login {
+    padding: 5%;
+}
+
+#auth-signup {
+    padding: 5%;
+    border-left: 1px solid rgb(226, 226, 226);
+}
+
+#top-nav ul a {
+    padding: 0 30px;
+}
+
 .main {
     padding: 75px;
     width: 80%;
@@ -18,7 +31,6 @@ a {
   box-sizing: border-box;
   position: relative;
   /* width: 13em;  - apply for fixed size */
-  margin: 0.2em;
   padding: 0 15px 0 46px;
   border: none;
   text-align: left;

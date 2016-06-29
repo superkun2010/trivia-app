@@ -1,59 +1,67 @@
 <container>
     <div class="row">
-        <form class="col s6" method="post" action="/auth/signup">
-          <div class="row">
-            <div class="input-field col s6">
-              <input id="user_name" type="text" class="validate" name="user_name">
-              <label for="user_name">User Name</label>
+        <div class="col s6" id="auth-login">
+            <h4>Log In</h4>
+            <form method="post" action="/auth/login">
+                <div class="row">
+                    <div class="input-field">
+                        <input id="user_name" type="text" class="validate" name="user_name">
+                        <label for="user_name">User Name</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-field">
+                        <input id="password" type="password" class="validate" name="password">
+                        <label for="password">Password</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div>
+                        <p class="left-align">
+                            <button class="btn btn-large waves-effect waves-light nav-wrapper blue" type="submit" value="login">Log In</button>
+                        </p>
+                    </div>
+                </div>
+            </form>
+            <div>
+                <h5><strong>or</strong></h5>
+                <form method="get" action="/auth/login/facebook">
+                      <button class="loginBtn loginBtn--facebook">
+                          Log In with Facebook
+                      </button>
+                 </form>
             </div>
-          </div>
-          <div class="row">
-            <div class="input-field col s6">
-              <input id="password" type="password" class="validate" name="password">
-              <label for="password">Password</label>
-            </div>
-          </div>
-          <div class="row">
-            <div class="input-field col s6">
-              <input id="email" type="email" class="validate" name="email">
-              <label for="email">Email</label>
-            </div>
-          </div>
-          <div class="row">
-             <div class="col s6">
-                <p class="left-align">
-                    <button class="btn btn-large waves-effect waves-light nav-wrapper blue" type="submit" value="Sign Up">Signup
-                    </button>
-                </p>
-            </div>
-          </div>
-        </form>
-        <form class="col s6" method="post" action="/auth/login">
-          <div class="row">
-            <div class="input-field col s6">
-              <input id="user_name" type="text" class="validate" name="user_name">
-              <label for="user_name">User Name</label>
-            </div>
-          </div>
-          <div class="row">
-            <div class="input-field col s6">
-              <input id="password" type="password" class="validate" name="password">
-              <label for="password">Password</label>
-            </div>
-          </div>
-          <div class="row">
-             <div class="col s6">
-                <p class="left-align">
-                    <button class="btn btn-large waves-effect waves-light nav-wrapper blue" type="submit" value="login">Log In</button>
-                </p>
-            </div>
-          </div>
-        </form>
-        <div class="row">
-            <form method="get" action="/auth/login/facebook">
-                  <button class="loginBtn loginBtn--facebook">
-                      Login with Facebook
-                  </button>
-             </form>
         </div>
+        <div class="col s6" id="auth-signup">
+            <h4>Sign Up</h4>
+            <form method="post" action="/auth/signup">
+              <div class="row">
+                <div class="input-field">
+                  <input id="user_name" type="text" class="validate" name="user_name">
+                  <label for="user_name">User Name</label>
+                </div>
+              </div>
+              <div class="row">
+                <div class="input-field">
+                  <input id="password" type="password" class="validate" name="password">
+                  <label for="password">Password</label>
+                </div>
+              </div>
+              <div class="row">
+                <div class="input-field">
+                  <input id="email" type="email" class="validate" name="email">
+                  <label for="email">Email</label>
+                </div>
+              </div>
+              <div class="row">
+                 <div>
+                    <p class="left-align">
+                        <button class="btn btn-large waves-effect waves-light nav-wrapper blue" type="submit" value="Sign Up">Sign Up
+                        </button>
+                    </p>
+                </div>
+              </div>
+            </form>
+        </div>
+    </div>
 </container>
