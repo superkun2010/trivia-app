@@ -75,9 +75,9 @@ $('#play-button').on('click', function (event) {
 				$('.answer-buttons').remove();
 				renderQuestion(pageCount);
 				if (prevAnswer) {
-					$('#correct-box').html('correct');
+					$('#correct-box').html('correct ✅');
 				} else {
-					$('#correct-box').html('You are a failure');
+					$('#correct-box').html('You are a failure 💩');
 				}
 			} else {
 				$('#game-play').hide();
@@ -96,8 +96,8 @@ $('#play-button').on('click', function (event) {
 				tableRow.append(tdAnswer);
 				tableRow.append(tdCorrect);
 				$('#stats-table').append(tableRow);
-				
 			}
+			
 		}
 
 	})
