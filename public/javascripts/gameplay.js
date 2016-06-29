@@ -1,8 +1,8 @@
 
 'use strict'
 
-$('#game-play').hide();
-$('#game-stats').hide();
+// $('#game-play').hide();
+// $('#game-stats').hide();
 
 $('#play-button').on('click', function (event) {
 	let category = $('#category').val();
@@ -83,6 +83,7 @@ $('#play-button').on('click', function (event) {
 				$('#game-play').hide();
 				$('#game-stats').show();
 				resultsPage();
+				sendResults(game.category, game.responses);
 			}
 		}
 
@@ -97,8 +98,28 @@ $('#play-button').on('click', function (event) {
 				tableRow.append(tdCorrect);
 				$('#stats-table').append(tableRow);
 			}
-			
+
 		}
 
 	})
 })
+
+
+function sendResults(category, responses) {
+	// $.post('/api/responses', JSON.stringify(responses));
+	let categoryAndResponses = {};
+	categoryAndResponses.category = category;
+	categoryAndResponses.responses = responses;
+
+	$.ajax({
+		type: "POST",
+  		url: '/api/responses',
+  		data: JSON.stringify(categoryAndResponses),
+  		dataType: 'json',
+  		contentType: "application/json",
+  		success: function (data) {
+  			console.log('good job');
+  		}
+	});
+
+}
