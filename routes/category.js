@@ -25,11 +25,26 @@ router.get('/:id', (req, res, next) => {
   });
 });
 
-
-router.post('/createNew', function(req, res, next) {
-  console.log("going to new page")
-  res.send('new category landing page');
+router.get('/createNewCategory', (req, res, next) => {
+  knex('categories').select()
+  .then( (categories) => {
+    console.log(categories);
+    res.render('categories', {categories: categories});
+  });
 });
+
+// router.post('/createNewCategory', (req, res, next) => {
+//   var categoryName = req.body['category_name'];
+//   console.log(categoryName);
+//   knex.raw('select id, category_name from categories where category_name ~* ?', [`.*${categoryName}*.`])
+//   .then( (categories) => {
+//     var matchingCategory = categories.rows;
+//     console.log(matchingCategory);
+//     res.render('category', {category: matchingCategory});
+//   });
+// });
+
+
 
 // router.put('/:userId/booklists/:booklistId', function(req, res, next) {
 //   knex("authors").insert({name: req.body.author}).then(function(authorId) {
