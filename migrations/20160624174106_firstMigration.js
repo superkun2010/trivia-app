@@ -24,6 +24,7 @@ exports.up = function(knex, Promise) {
     return knex.schema.createTable('games', function(table) {
       table.increments();
       table.integer('category_id').references('categories.id').notNullable().onDelete('CASCADE');
+      table.integer('score');
     });
   })
   .then(function() {

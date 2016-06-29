@@ -1,8 +1,9 @@
 
 'use strict'
 
-// $('#game-play').hide();
-// $('#game-stats').hide();
+$(document).ready(function() {
+    $('select').material_select();
+});
 
 $('#play-button').on('click', function (event) {
 	let category = $('#category').val();
@@ -83,7 +84,7 @@ $('#play-button').on('click', function (event) {
 				$('#game-play').hide();
 				$('#game-stats').show();
 				resultsPage();
-				sendResults(game.category, game.responses);
+				sendResults(game.category, game.questions.length, game.score, game.responses);
 			}
 		}
 
@@ -98,6 +99,11 @@ $('#play-button').on('click', function (event) {
 				tableRow.append(tdCorrect);
 				$('#stats-table').append(tableRow);
 			}
+			for (let i = 0; i< game.responses.length; i++) {
+				if (game.responses[i].result == "Correct") {
+					game.score++;
+				}
+			}
 
 		}
 
@@ -105,16 +111,18 @@ $('#play-button').on('click', function (event) {
 })
 
 
-function sendResults(category, responses) {
+function sendResults(category, numOfQuestions, score, responses) {
 	// $.post('/api/responses', JSON.stringify(responses));
-	let categoryAndResponses = {};
-	categoryAndResponses.category = category;
-	categoryAndResponses.responses = responses;
+	let sendToServer = {};
+	sendToServer.category = category;
+	sendToServer.numOfQuestions = numOfQuestions;
+	sendToServer.score = score;
+	sendToServer.responses = responses;
 
 	$.ajax({
 		type: "POST",
   		url: '/api/responses',
-  		data: JSON.stringify(categoryAndResponses),
+  		data: JSON.stringify(sendToServer),
   		dataType: 'json',
   		contentType: "application/json",
   		success: function (data) {
