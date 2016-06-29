@@ -56,14 +56,16 @@ passport.use(new FacebookStrategy({
     clientID: FACEBOOK_APP_ID,
     clientSecret: FACEBOOK_APP_SECRET,
     callbackURL: "http://localhost:3000/auth/login/facebook/callback",
-    enableProof: true
+    enableProof: true,
+    profileFields: ['id', 'emails', 'displayName']
   },
   function(accessToken, refreshToken, profile, cb) {
+      console.log(profile)
       knex('users').where({
           facebook_oauth: profile.id
       }).first().then(function(user) {
         if (!user) {
-          knex('users').insert({ facebook_oauth: profile.id, user_name: profile.displayName, email: 'facebookUser'})
+          knex('users').insert({ facebook_oauth: profile.id, user_name: profile.displayName, email: profile.emails[0].value})
           .then(function () {
             return cb(null, profile);
           });
