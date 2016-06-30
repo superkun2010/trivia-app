@@ -60,12 +60,12 @@ router.delete('/:id', (req, res, next) => {
 });
 
 router.put('/:id', (req, res, next) => {
-  console.log('!!!!!!' + req.body[0] + " in between body & params " + req.params.id);
+  console.log('!!!!!!' + req.body + " in between body & params " + req.params.id);
   console.dir(req.body);
-  knex('categories').update({category_name: req.body['changeSomething']}).where({"id": req.params.id})
+  knex('categories').update({category_name: req.body.category_name}).where({"id": req.params.id})
   .then( (data) => {
     console.log(data);
-    res.redirect('/category');
+    res.send('SUCCESS');
   })
 });
 
