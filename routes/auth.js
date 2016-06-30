@@ -20,7 +20,7 @@ router.get('/login/facebook/callback',
     passport.authenticate('facebook', { failureRedirect: '/' }),
     function(req, res) {
     // Successful authentication, redirect home.
-    res.redirect('/game');
+    res.redirect('/game/start');
 });
 
 // Signup/Login with bcrypt
@@ -41,10 +41,10 @@ router.post('/signup', function(req, res, next) {
           }).then(function(user){
               req.session.userID = user[0].id;
               req.session.username = user[0].user_name;
-              res.redirect('/game');
+              res.redirect('/game/start');
             });
         } else {
-            res.redirect('/game');
+            res.redirect('/game/start');
         }
     });
 });
