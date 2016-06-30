@@ -24,7 +24,7 @@
               </ul>
               <ul id="nav-mobile" class="right hide-on-med-and-down">
                  {{#if user}}
-                    <li>{{user}}</li>
+                    <li id="theUser">{{user}}</li>
                     <li><a href="/auth/logout">Log Out</a></li>
                  {{else}}
                     <li><a href="/auth/login">Log In / Sign Up</a></li>

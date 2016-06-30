@@ -107,13 +107,36 @@ app.use(function(req, res, next){
 });
 
 //START ---- SOCKET CODE
+
+var players = [];
+
 io.on('connection', function(socket){
   console.log('connected');
-  if (userForSocket) {
+  if (userForSocket) { 
     socket.on('enter-room', function(hello) {
-      console.log('HELLO', userForSocket);
-      io.emit('entrance', userForSocket);
+      // console.log('HELLO', userForSocket);
+      var curPlayer = {};
+      curPlayer.socketId = socket.id;
+      curPlayer.username = userForSocket;
+      players.push(curPlayer);
+      console.log(players);
+      // io.sockets.connected[players[players.length-1].socketId].emit('attendance', players);
+      io.emit('attendance', players);
     })
+
+    socket.on('disconnect', function () {
+        console.log('exit', socket.id);
+        var socketIdArray = [];
+        for (var i = 0; i < players.length; i++) {
+          socketIdArray.push(players[i].socketId);
+        }
+        var spliceIndex = socketIdArray.indexOf(socket.id);
+        console.log(spliceIndex);
+        players.splice(spliceIndex,1);
+        console.log(players);
+      // io.sockets.broadcast[players[players.length-1].socketId].emit('attendance', players);
+      io.emit('attendance', players);
+    });
   }
 });
 //END -- SOCKET CODE
