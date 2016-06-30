@@ -60,7 +60,7 @@ router.post('/login', function(req, res, next) {
         if (user && bcrypt.compareSync(req.body.password, user.password)) {
             req.session.userID = user.id;
             req.session.username = user.user_name;
-            res.redirect('/game');
+            res.redirect('/game/start');
         } else {
             res.redirect('/auth/login');
             //add error for not having the right password
