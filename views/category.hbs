@@ -3,16 +3,28 @@
 <script src="https://code.jquery.com/jquery-3.0.0.min.js"></script>
 <div class="container">
     <div class="row" id="game-start">
-        <!-- <form action="/category/" method="POST" class="col s12"> -->
 
-          <div class="input-field col m6">
-          	<button id="change-something" class="btn waves-effect waves-light blue" type="submit" name="action">Rename Category<i class="material-icons right"></i>
+          <div class="input-field col m6 modal-trigger" href='#modal1'>
+          	<button class="btn waves-effect waves-light blue" type="submit" name="action" data-target="modal1" >Rename Category<i class="material-icons right"></i>
           	</button>
+          </div>
+          <div id="modal1" class="modal">
+            <div class="modal-content">
+              <h4>What's the new name?</h4>
+              <div class="input-field col s6">
+                <form action="/category/" method="PUT" >
+                <input placeholder="{{categories.category_name}}" id="catChange" type="text" class="change category">
+                <label for="new-cat">New Category Name</label>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <a href="#!" class="modal-action modal-close waves-effect waves-red btn-flat ">Eh, I'll leave it alone</a>
+              <a id="catChange" class="modal-action modal-close waves-effect waves-green btn-flat ">Change the Category Name, Plz</a>
+            </div>
           </div>
 
           <div class="input-field col m6 modal-trigger" href="#modal2">
-          	<button id="play-button" class="btn waves-effect waves-light blue" type="submit" name="action">Delete Category<i class="material-icons right"></i>
-          	</button>
+            <button data-target="modal2" class="btn waves-effect waves-light blue modal-trigger">Delete Category</button>
           </div>
           <div id="modal2" class="modal">
             <div class="modal-content">
@@ -39,10 +51,11 @@
           </script>
 
           <script>
-            $("#change-something").click(function (e) {
+            $("#catChange").click(function (e) {
               $.ajax({
                 url: "/category/{{categories.id}}",
                 method: "PUT",
+                category_name:
                 success: function() {
                   console.log("CHANGE DAMNIT");
                   window.location = "/category"
@@ -50,10 +63,6 @@
               })
             })
           </script>
-          <!-- <div class="input-field col m6">
-          	<button id="play-button" class="btn waves-effect waves-light blue" type="submit" name="action">Delete Category<i class="material-icons right"></i>
-          	</button>
-          </div> -->
 
           <div class="input-field col m6">
           	<button id="play-button" class="btn waves-effect waves-light blue" type="submit" name="action">Add Question<i class="material-icons right"></i>
@@ -64,7 +73,6 @@
             <button id="play-button" class="btn waves-effect waves-light blue" type="submit" name="action">Edit Question<i class="material-icons right"></i>
             </button>
           </div>
-        <!-- </form> -->
     </div>
 
 </div>

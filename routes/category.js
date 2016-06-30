@@ -60,14 +60,20 @@ router.delete('/:id', (req, res, next) => {
 });
 
 router.put('/:id', (req, res, next) => {
-  console.log('!!!!!!',req.body);
-  knex('categories').update().where({"category_name": req.body})
+  console.log('!!!!!!' + req.body[0] + " in between body & params " + req.params.id);
+  console.dir(req.body);
+  knex('categories').update({category_name: req.body['changeSomething']}).where({"id": req.params.id})
   .then( (data) => {
     console.log(data);
-    res.send('SUCCESS');
+    res.redirect('/category');
   })
 });
 
+
+// .then( (categories) => {
+//   res.render('category', {categories: categories[0]});
+// });
+// });
 
 
 module.exports = router;
