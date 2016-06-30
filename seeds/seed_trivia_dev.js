@@ -14,9 +14,9 @@ exports.seed = function(knex, Promise) {
       .then(function () {
         return Promise.all([
           // Inserts seed entries
-          knex('categories').insert({category_name: 'functions', group: 'programming'}).returning('id'),
-          knex('categories').insert({category_name: 'javascript', group: 'programming'}).returning('id'),
-          knex('categories').insert({category_name: 'world capitals', group: 'geography'}).returning('id')
+          knex('categories').insert({category_name: 'functions'}).returning('id'),
+          knex('categories').insert({category_name: 'javascript'}).returning('id'),
+          knex('categories').insert({category_name: 'world capitals'}).returning('id')
         ]);
       }),
     knex('questions').del()
@@ -76,13 +76,13 @@ exports.seed = function(knex, Promise) {
           // ])
         })
       });
-    }) 
-    
+    })
 
-          
-   
 
-         
-   
-  
+
+
+
+
+
+
 };

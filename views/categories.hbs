@@ -3,7 +3,7 @@
 
 <ul class="category_list"  align= 'center'>
   {{#each categories}}
-  <button class="btn waves-effect waves-light blue" onclick = "javascript:location.href = '/category/{{this.id}}';"> {{this.category_name}}
+  <button class="btn waves-effect waves-light blue" onclick = "javascript:location.href = '/category/{{this.id}}/edit';"> {{this.category_name}}
   {{/each}}
 </ul>
 
@@ -16,3 +16,4 @@
   <button class="btn waves-effect waves-light blue" onclick = "javascript:location.href = '/category/createNewCategory'" ><center>Create your own category</button>
 </ul>
 <script src="https://code.jquery.com/jquery-3.0.0.min.js"></script>
+<script src="/javascripts/modal.js">

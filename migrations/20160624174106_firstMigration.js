@@ -10,8 +10,7 @@ exports.up = function(knex, Promise) {
 
     knex.schema.createTable('categories', function(table) {
     	table.increments();
-    	table.string('category_name').notNullable();
-      table.string('group');
+    	table.string('category_name').notNullable().unique();
     }),
 
     knex.schema.createTable('questions', function(table) {
@@ -21,7 +20,7 @@ exports.up = function(knex, Promise) {
     })
   ])
 
-  .then(function() {  
+  .then(function() {
     return knex.schema.createTable('games', function(table) {
       table.increments();
       table.integer('category_id').references('categories.id').notNullable().onDelete('CASCADE');
@@ -49,7 +48,7 @@ exports.up = function(knex, Promise) {
       table.integer('game_id').references('games.id').notNullable().onDelete('CASCADE');
     });
   })
-  .then(function(){ 
+  .then(function(){
     return knex.schema.createTable('game_questions', function(table) {
       table.increments();
       table.integer('game_id').references('games.id').notNullable().onDelete('CASCADE');
@@ -92,11 +91,3 @@ exports.down = function(knex, Promise) {
       ])
     })
 };
-
-    
-  
-
-    
-    
-  
-
