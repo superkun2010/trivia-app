@@ -4,14 +4,13 @@ exports.up = function(knex, Promise) {
     	table.increments();
     	table.string('user_name').notNullable().unique();
       table.string('password');
-      table.string('email').notNullable();
+      table.string('email').notNullable().unique();
       table.string('facebook_oauth');
     }),
 
     knex.schema.createTable('categories', function(table) {
     	table.increments();
-    	table.string('category_name').notNullable();
-      table.string('group');
+    	table.string('category_name').notNullable().unique();
     }),
 
     knex.schema.createTable('questions', function(table) {
@@ -25,6 +24,8 @@ exports.up = function(knex, Promise) {
     return knex.schema.createTable('games', function(table) {
       table.increments();
       table.integer('category_id').references('categories.id').notNullable().onDelete('CASCADE');
+      table.integer('score');
+      table.integer('num_questions');
     });
   })
   .then(function() {

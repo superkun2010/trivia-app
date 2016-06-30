@@ -1,8 +1,9 @@
 
 'use strict'
 
-$('#game-play').hide();
-$('#game-stats').hide();
+$(document).ready(function() {
+    $('select').material_select();
+});
 
 $('#play-button').on('click', function (event) {
 	let category = $('#category').val();
@@ -30,7 +31,7 @@ $('#play-button').on('click', function (event) {
 				curQuestion.questionText = data[i].question_text;
 				curQuestion.questionId = data[i].question_id;
 				game.questions.push(curQuestion);
-				console.log(questionIds);
+				// console.log(questionIds);
 			}
 		}
 		
@@ -44,8 +45,7 @@ $('#play-button').on('click', function (event) {
 					game.questions[i].answers.push(curAnswer);
 				}
 			}
-		}			
-		console.log(game);
+		}
 
 		$('#title-category').html(game.category);
 		
@@ -60,7 +60,7 @@ $('#play-button').on('click', function (event) {
 				currentButton.on('click', function(event) {
 					let answerNum = $(event.target).attr('id');
 					game.responses.push(game.addResponse(page,answerNum));
-					console.log(game.responses);
+					// console.log(game.responses);
 					let correct = game.questions[page].answers[answerNum].correct;
 					newPage(correct);
 					event.preventDefault();
@@ -75,14 +75,16 @@ $('#play-button').on('click', function (event) {
 				$('.answer-buttons').remove();
 				renderQuestion(pageCount);
 				if (prevAnswer) {
-					$('#correct-box').html('correct');
+					$('#correct-box').html('correct ✅');
 				} else {
-					$('#correct-box').html('You are a failure');
+					$('#correct-box').html('You are a failure 💩');
 				}
 			} else {
 				$('#game-play').hide();
 				$('#game-stats').show();
+				// console.log(game);
 				resultsPage();
+				sendResults(game.category, game.questions.length, game.score, game.responses);
 			}
 		}
 
@@ -96,9 +98,38 @@ $('#play-button').on('click', function (event) {
 				tableRow.append(tdAnswer);
 				tableRow.append(tdCorrect);
 				$('#stats-table').append(tableRow);
-				
 			}
+			for (let i = 0; i< game.responses.length; i++) {
+				if (game.responses[i].result == "Correct") {
+					game.score++;
+				}
+			}
+			let scoreText = 'You got ' + game.score.toString() + ' right';
+			$('#score').html(scoreText);
+
 		}
 
 	})
 })
+
+
+function sendResults(category, numOfQuestions, score, responses) {
+	// $.post('/api/responses', JSON.stringify(responses));
+	let sendToServer = {};
+	sendToServer.category = category;
+	sendToServer.numOfQuestions = numOfQuestions;
+	sendToServer.score = score;
+	sendToServer.responses = responses;
+	// console.log(sendToServer);
+	$.ajax({
+		type: "POST",
+  		url: '/api/responses',
+  		data: JSON.stringify(sendToServer),
+  		dataType: 'json',
+  		contentType: "application/json",
+  		success: function (data) {
+  			console.log('good job');
+  		}
+	});
+
+}
