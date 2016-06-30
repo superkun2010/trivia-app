@@ -23,6 +23,9 @@ var passport = require('passport');
 
 var app = express();
 
+var server = require('http').Server(app); 
+var io = require('socket.io')(server); 
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
@@ -91,10 +94,25 @@ app.use(function (req, res, next) {
     next();
 });
 
+var userForSocket;
+
 app.use(function(req, res, next){
   res.locals.user = req.session.username;
+  userForSocket = req.session.username;
   next();
 });
+
+//START ---- SOCKET CODE
+io.on('connection', function(socket){
+  console.log('connected');
+  if (userForSocket) {
+    socket.on('enter-room', function(hello) {
+      console.log('HELLO', userForSocket);
+      io.emit('entrance', userForSocket);
+    })
+  }
+});
+//END -- SOCKET CODE
 
 app.use('/', routes);
 app.use('/auth', auth);
@@ -136,4 +154,7 @@ app.use(function(err, req, res, next) {
 });
 
 
-module.exports = app;
+module.exports = {
+  app,
+  server
+}

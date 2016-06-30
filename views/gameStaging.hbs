@@ -1,0 +1,38 @@
+<div class="container">
+	<div class="row">
+		<form action="" method="" class="col s12">
+		    <div class="input-field col m6">
+		        <select name="category" id="category" >
+		            <option value="" disabled selected>Choose your Category</option>
+		            {{#each category}}
+		            <option value="{{category_name}}">{{category_name}}</option>
+		            {{/each}}
+		        </select>
+		        <label for="category">Category</label>
+		    </div>
+		    <div class="input-field col m6">
+		        <select name="numOfQuestions" id="num-of-questions" >
+		          <option value="" disabled selected># of Questions</option>
+		          <option value="20">20</option>
+		          <option value="15">15</option>
+		          <option value="10">10</option>
+		          <option value="5">5</option>
+		          <option value="4">4</option>
+		          <option value="3">3</option>
+		          <option value="2">2</option>
+		          <option value="1">1</option>
+		        </select>
+		          <label for="numOfQuestions">Number of Questions</label>
+		    </div>
+		    <div id="player-box" >
+				<h5 class="col m6">TEST</h5>
+				<div class="input-field col m6">
+					<a class="btn waves-effect waves-light blue" type="submit" name="action">Play<i class="material-icons right">send</i>
+					</a>
+				</div>
+			</div>
+		</form>
+	</div>
+	
+	</div>
+</div>
