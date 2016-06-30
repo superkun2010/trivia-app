@@ -16,7 +16,11 @@ a {
 }
 
 #top-nav ul a {
-    padding: 0 30px;
+    padding: 0 20px;
+}
+
+#true-false {
+    margin-bottom: 30px;
 }
 
 .main {

@@ -1,14 +1,16 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
     <title>Trivia Junkie</title>
-      <!--Import Google Icon Font-->
-      <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-      <!-- Compiled and minified CSS -->
-      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.6/css/materialize.min.css">
-      <!--Let browser know website is optimized for mobile-->
-      <link rel="stylesheet" type="text/css" href="/stylesheets/style.css">
-      <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <!--Import Google Icon Font-->
+    <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.6/css/materialize.min.css">
+    <!--Let browser know website is optimized for mobile-->
+    <link rel="stylesheet" type="text/css" href="/stylesheets/style.css">
   </head>
     <body>
         <nav id="top-nav">
@@ -16,8 +18,9 @@
               <a href="#" class="brand-logo center">Trivia Junkie</a>
               <ul id="nav-mobile" class="left hide-on-med-and-down">
                 <li><a href="/game/start">Play</a></li>
+                <li><a href="/game">My Stats</a></li>
                 <li><a href="/category">Categories</a></li>
-                <li><a href="/game/mystats">My Stats</a></li>
+                <li><a href="/question">Questions</a></li>
               </ul>
               <ul id="nav-mobile" class="right hide-on-med-and-down">
                  {{#if user}}
@@ -39,5 +42,6 @@
     <script src="/javascripts/gameModel.js"></script>
     <script src="/javascripts/questionModel.js"></script>
     <script src="/javascripts/gameplay.js"></script>
+    <script src="/javascripts/addQuestions.js"></script>
   </body>
 </html>

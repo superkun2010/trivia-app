@@ -1,0 +1,62 @@
+<container>
+        <form class="col s12" method="post" action="/question/added">
+            <div class="row">
+                <h4>Add a Question</h4>
+                <div class="input-field col s4">
+                    <input id="question_text" type="text" class="validate" name="question" required>
+                    <label for="question">Question</label>
+                </div>
+            </div>
+            <div class="row">
+             <div class="input-field col s4">
+                 <select name="question_type">
+                   <option value="boolean">True/False</option>
+                   <option value="multiple choice">Multiple Choice</option>
+                 </select>
+                 <label>Answer Type</label>
+              </div>
+          </div>
+          <div class="row">
+              <div class="input-field col s4">
+                  <input id="answer1" type="text" class="validate" name="answer1" required>
+                  <label for="answer1">✅</label>
+              </div>
+          </div>
+          <div class="row">
+              <div class="input-field col s4">
+                  <input id="answer2" type="text" class="validate" name="answer2" required>
+                  <label for="answer2">❌</label>
+              </div>
+          </div>
+          <div class="row">
+              <div class="input-field col s4">
+                  <input id="answer3" type="text" class="validate" name="answer3" required>
+                  <label for="answer3">❌</label>
+              </div>
+          </div>
+          <div class="row">
+              <div class="input-field col s4">
+                  <input id="answer4" type="text" class="validate" name="answer4" required>
+                  <label for="answer4">❌</label>
+              </div>
+          </div>
+          <div class="row">
+              <div>
+                  <p class="left-align">
+                      <button class="btn btn-small waves-effect waves-light nav-wrapper blue" type="submit" value="login">Submit Question</button>
+                  </p>
+              </div>
+          </div>
+          <div class="input-field col s4" id="true-false" style="visibility:hidden">
+              <p>
+                <input name="group1" type="radio" id="test1" />
+                <label for="test1">True</label>
+              </p>
+              <p>
+                <input name="group1" type="radio" id="test2" />
+                <label for="test2">False</label>
+              </p>
+          </div>
+       </form>
+    </div>
+</container>
