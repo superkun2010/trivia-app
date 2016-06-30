@@ -78,8 +78,8 @@ exports.seed = function(knex, Promise) {
           console.log(data);
           console.log(answers);
           console.log(games);
-          // return Promise.all([
-            Promise.all([
+          return Promise.all([
+            // Promise.all([
               // Inserts seed entries
               knex('category_questions').insert({question_id: data[2][0][0], category_id: data[1][1][0]}),
               knex('category_questions').insert({question_id: data[2][1][0], category_id: data[1][2][0]}),
@@ -91,7 +91,7 @@ exports.seed = function(knex, Promise) {
               knex('category_questions').insert({question_id: data[2][7][0], category_id: data[1][2][0]}),
               knex('category_questions').insert({question_id: data[2][8][0], category_id: data[1][1][0]}),
               knex('category_questions').insert({question_id: data[2][9][0], category_id: data[1][0][0]})
-            ]),
+            ])
           //   Promise.all([
           //     // Inserts seed entries
           //     knex('game_questions').insert({game_id: , question_id: }),
@@ -113,12 +113,4 @@ exports.seed = function(knex, Promise) {
         })
       });
     })
-
-
-
-
-
-
-
-
 };
