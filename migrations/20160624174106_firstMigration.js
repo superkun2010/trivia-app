@@ -25,6 +25,7 @@ exports.up = function(knex, Promise) {
       table.increments();
       table.integer('category_id').references('categories.id').notNullable().onDelete('CASCADE');
       table.integer('score');
+      table.integer('num_questions');
     });
   })
   .then(function() {

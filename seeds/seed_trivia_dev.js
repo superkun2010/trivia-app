@@ -25,7 +25,9 @@ exports.seed = function(knex, Promise) {
           // Inserts seed entries
           knex('questions').insert({question_text: 'Does a boolean mean true or false?', question_type: 'boolean'}).returning('id'),
           knex('questions').insert({question_text: 'What is the capital of Peru?', question_type: 'multiple choice'}).returning('id'),
-          knex('questions').insert({question_text: 'Is a callback a higher order function', question_type: 'boolean'}).returning('id')
+          knex('questions').insert({question_text: 'Is a callback a higher order function', question_type: 'boolean'}).returning('id'),
+          knex('questions').insert({question_text: 'Ottawa is the capital of Canada', question_type: 'boolean'}).returning('id'),
+          knex('questions').insert({question_text: 'Suva is the capital of Fiji', question_type: 'boolean'}).returning('id')
         ]);
       })
   ]).then(function(data) {
@@ -34,8 +36,12 @@ exports.seed = function(knex, Promise) {
         knex('answers').insert({question_id: data[2][1][0], answer_text: 'Lima', answer_bool: true}).returning('id'),
         knex('answers').insert({question_id: data[2][0][0], answer_text: 'true', answer_bool: true}).returning('id'),
         knex('answers').insert({question_id: data[2][2][0], answer_text: 'true', answer_bool: true}).returning('id'),
+        knex('answers').insert({question_id: data[2][3][0], answer_text: 'true', answer_bool: true}).returning('id'),
+        knex('answers').insert({question_id: data[2][4][0], answer_text: 'true', answer_bool: true}).returning('id'),
         knex('answers').insert({question_id: data[2][0][0], answer_text: 'false', answer_bool: false}).returning('id'),
         knex('answers').insert({question_id: data[2][2][0], answer_text: 'false', answer_bool: false}).returning('id'),
+        knex('answers').insert({question_id: data[2][3][0], answer_text: 'false', answer_bool: false}).returning('id'),
+        knex('answers').insert({question_id: data[2][4][0], answer_text: 'false', answer_bool: false}).returning('id'),
         knex('answers').insert({question_id: data[2][1][0], answer_text: 'Ottawa', answer_bool: false}).returning('id'),
         knex('answers').insert({question_id: data[2][1][0], answer_text: 'Kingston', answer_bool: false}).returning('id'),
         knex('answers').insert({question_id: data[2][1][0], answer_text: 'Buenos Aires', answer_bool: false}).returning('id')

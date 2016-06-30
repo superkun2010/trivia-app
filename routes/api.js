@@ -39,12 +39,14 @@ router.get('/questionset/:category/:num', function (req, res, next) {
 
 router.post('/responses', function (req,res,next) {
 	var category = req.body.category;
+	var score = req.body.score;
+	var numQuestions = req.body.numOfQuestions;
 	var responses = req.body.responses;
 	var userId = req.session.userID;
 	return knex('categories').select().where('category_name', category)
 	.then(function(category) {
 		console.log('hey', category);
-		return knex('games').insert({category_id: category[0].id}).returning('id')
+		return knex('games').insert({category_id: category[0].id, score: score, num_questions: numQuestions }).returning('id')
 	}).then(function(gameId) {
 		console.log(gameId);
 		return knex('user_games').insert({user_id: userId, game_id: gameId[0]}).returning('game_id')
