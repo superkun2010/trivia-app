@@ -1,6 +1,6 @@
 <container>
     <div class="row col s6">
-        <form method="post" action="/question/add" novalidate>
+        <form method="post" action="/question" novalidate>
             <div class="row">
                 <h4>Add a Question</h4>
                 <div class="input-field">
@@ -55,6 +55,16 @@
                  </p>
              </div>
          </div>
+         <div class="row">
+           <div class="input-field">
+              <select name="category_id" id="categoryName">
+                 <option>Select Category</option>
+                 {{#each categories}}
+                   <option value="{{id}}">{{category_name}}</option>
+                 {{/each}}
+              </select>
+           </div>
+       </div>
              <div class="row">
                  <div>
                      <p class="left-align">

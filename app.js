@@ -60,17 +60,16 @@ passport.use(new FacebookStrategy({
     profileFields: ['id', 'emails', 'displayName']
   },
   function(accessToken, refreshToken, profile, cb) {
-      console.log(profile)
       knex('users').where({
           facebook_oauth: profile.id
       }).first().then(function(user) {
         if (!user) {
           knex('users').insert({ facebook_oauth: profile.id, user_name: profile.displayName, email: profile.emails[0].value})
           .then(function () {
-            return cb(null, profile);
+              return cb(null, profile);
           });
         } else {
-          return cb(null, profile);
+            return cb(null, profile);
         }
      })
   }
@@ -87,6 +86,11 @@ passport.deserializeUser(function(obj, cb) {
 app.use(function (req, res, next) {
     if (req.session && req.session.passport && req.session.passport.user && req.session.passport.user.displayName) {
         req.session.username = req.session.passport.user.displayName;
+        knex('users').where({
+            user_name: req.session.username
+        }).first().then(function(user) {
+            req.session.userID = user.id
+         });
     }
     next();
 });
@@ -109,7 +113,6 @@ app.use(function(req, res, next) {
   err.status = 404;
   next(err);
 });
-
 
 // error handlers
 
