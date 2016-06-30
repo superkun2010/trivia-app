@@ -1,42 +1,41 @@
 <div class="container">
     <div class="row" id="game-start">
-        <form action="/game/play" method="GET" class="col s12">
-            <div class="input-field col m6">
+        <form action="" method="" class="col s12">
+            <!-- <div class="input-field col m6">
                 <input placeholder="world capitals" id="category" type="text" class="validate" name="category">
                 <label for="category">Category</label>
             </div>
              <div class="input-field col m6">
                 <input placeholder="1" id="num-of-questions" type="text" class="validate" name="numOfQuestions">
                 <label for="numOfQuestions">Number of Questions</label>
-            </div>
-                <!-- <div class="input-field col m6">
-                    <select name="category">
+            </div> -->
+                <div class="input-field col m6">
+                    <select name="category" id="category" >
                         <option value="" disabled selected>Choose your Category</option>
                         <option value="world capitals">World Capitals</option>
                         <option value="functions">Functions</option>
-                        <option value="javasript">Javascript</option>
+                        <option value="javascript">Javascript</option>
                     </select>
                     <label for="category">Category</label>
                 </div>
                 <div class="input-field col m6">
-                      <select name="numOfQuestions">
+                      <select name="numOfQuestions" id="num-of-questions" >
                           <option value="" disabled selected># of Questions</option>
                           <option value="1">1</option>
                           <option value="2">2</option>
                           <option value="3">3</option>
                       </select>
                       <label for="numOfQuestions">Number of Questions</label>
-                </div> -->
+                </div>
             <div class="input-field col m6">
             	<button id="play-button" class="btn waves-effect waves-light blue" type="submit" name="action">Play<i class="material-icons right">send</i>
             	</button>
             </div>
         </form>
     </div>
-    <div class="row" id="game-play">
+    <div class="row" id="game-play" style="display:none;">
     	<h1 id="title-category"></h1>
     	<div id="answer">
-  
     	</div>
     	<div>
     		<p id="question"></p>
@@ -44,12 +43,11 @@
     	<div id="button-box">
     	</div>
     	<div id="correct-box">
-    	
     	</div>
-
     </div>
-    <div class="row" id="game-stats">
-    	<table class="highlight">
+    <div class="row" id="game-stats" style="display:none;">
+        <h2 id="score"></h2>
+        <table class="highlight">
 	        <thead>
 	          <tr>
 	              <th>Question</th>
@@ -58,7 +56,16 @@
 	          </tr>
         	</thead>
         	<tbody id="stats-table">
-        		
         	</tbody>
+        </table>
+        <div>
+        	<a href="/game/start" id="play-again" class="btn waves-effect waves-light blue" type="submit" name="action">Play Again<i class="material-icons right">send</i>
+            </a>
+        </div>
+        <p></p>
+        <div>
+        	<a href="/game/mystats" id="my-stats" class="btn waves-effect waves-light blue" type="submit" name="action">See My Statistics<i class="material-icons right">send</i>
+            </a>
+        </div>
     </div>
 </div>

@@ -1,37 +1,80 @@
-<h3><center>Add a question to the {{#each categories}} category,
-'{{this.category_name}}'
-{{/each}}{{title}}</h3>
-
+<h3><center>Category options for '{{categories.category_name}}'
+{{title}}</h3>
+<script src="https://code.jquery.com/jquery-3.0.0.min.js"></script>
 <div class="container">
     <div class="row" id="game-start">
-        <form action="/category/createNewCategory" method="POST" class="col s12">
-            <div class="input-field col m6">
-                <input placeholder="World Capitals" id="category" type="text" class="validate" name="category">
-                <label for="category">Category Name</label>
-            </div>
-            <div class="input-field col m6">
-               <input placeholder="Burkina Faso" id="correct-answer" type="text" class="validate" name="numOfQuestions">
-               <label for="numOfQuestions">Correct Answer</label>
-           </div>
-           <div class="input-field col m6">
-              <input placeholder="Beijing" id="incorrect-answer" type="text" class="validate" name="numOfQuestions">
-              <label for="numOfQuestions">Incorrect Answer</label>
-          </div>
-          <div class="input-field col m6">
-             <input placeholder="Paris" id="incorrect-answer" type="text" class="validate" name="numOfQuestions">
-             <label for="numOfQuestions">Incorrect Answer</label>
-         </div>
-         <div class="input-field col m6">
-            <input placeholder="London" id="incorrect-answer" type="text" class="validate" name="numOfQuestions">
-            <label for="numOfQuestions">Incorrect Answer</label>
-        </div>
+        <!-- <form action="/category/" method="POST" class="col s12"> -->
 
-            <div class="input-field col m6">
-            	<button id="play-button" class="btn waves-effect waves-light blue" type="submit" name="action">Submit Question<i class="material-icons right"></i>
-            	</button>
+          <div class="input-field col m6">
+          	<button id="change-something" class="btn waves-effect waves-light blue" type="submit" name="action">Rename Category<i class="material-icons right"></i>
+          	</button>
+          </div>
+
+          <div class="input-field col m6 modal-trigger" href="#modal2">
+          	<button id="play-button" class="btn waves-effect waves-light blue" type="submit" name="action">Delete Category<i class="material-icons right"></i>
+          	</button>
+          </div>
+          <div id="modal2" class="modal">
+            <div class="modal-content">
+              <h4>Whoa there!</h4>
+              <p>Are you sure you want to do this? Deleting the category does NOT delete the questions cooresponding to the category.</p>
             </div>
-        </form>
+            <div class="modal-footer">
+              <a href="#!" class="modal-action modal-close waves-effect waves-red btn-flat ">Nah, I'll leave it alone</a>
+              <a id="delete-something" class="modal-action modal-close waves-effect waves-green btn-flat ">Yeah, let me destroy everything</a>
+            </div>
+          </div>
+
+          <script>
+            $("#delete-something").click(function (e) {
+              $.ajax({
+                url: "/category/{{categories.id}}",
+                method: "DELETE",
+                success: function() {
+                  console.log("AHHHHHH")
+                  window.location = "/category"
+                }
+              })
+            })
+          </script>
+
+          <script>
+            $("#change-something").click(function (e) {
+              $.ajax({
+                url: "/category/{{categories.id}}",
+                method: "PUT",
+                success: function() {
+                  console.log("CHANGE DAMNIT");
+                  window.location = "/category"
+                }
+              })
+            })
+          </script>
+          <!-- <div class="input-field col m6">
+          	<button id="play-button" class="btn waves-effect waves-light blue" type="submit" name="action">Delete Category<i class="material-icons right"></i>
+          	</button>
+          </div> -->
+
+          <div class="input-field col m6">
+          	<button id="play-button" class="btn waves-effect waves-light blue" type="submit" name="action">Add Question<i class="material-icons right"></i>
+          	</button>
+          </div>
+
+          <div class="input-field col m6">
+            <button id="play-button" class="btn waves-effect waves-light blue" type="submit" name="action">Edit Question<i class="material-icons right"></i>
+            </button>
+          </div>
+        <!-- </form> -->
     </div>
 
-
 </div>
+
+<h3><center>Or, create a new category</h3>
+  <form action="/category/createNewCategory" method="GET">
+  <div class="input-field col m4">  <center>
+    <button id="play-button" class="btn waves-effect waves-light blue" type="submit" name="action">Create New Category<i class="material-icons right"></i>
+  </button>
+  </form>
+  </div>
+
+<script src='/javascripts/modal.js'> </script>
