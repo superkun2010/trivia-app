@@ -4,8 +4,8 @@ var cookieParser = require('cookie-parser');
 var cookieSession = require('cookie-session');
 var knex = require('../db/knex.js');
 var bodyParser = require('body-parser');
-var server = require('http').Server(router); 
-var io = require('socket.io')(server); 
+
+var user = '';
 
 router.use(bodyParser.json());
 router.use(bodyParser.urlencoded({ extended: false }));
@@ -50,9 +50,16 @@ router.get('/start', function(req, res, next) {
 });
 
 router.get('/gameroom', function(req,res) {
-	// io.on('connection', function(socket){
-		res.render('gameStaging', {layout: 'gameRoomLayout'});
-	// })
+	user = req.session.username;
+
+	return knex('categories').select('category_name')
+  	.then(function(category) {
+  		console.log(category);
+  		res.render('gameStaging', {layout: 'gameRoomLayout', category: category});
+  	}).catch(function (error) {
+  		console.log(error);
+  	})
+
 })
 
 
