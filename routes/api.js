@@ -43,15 +43,16 @@ router.post('/responses', function (req,res,next) {
 	var numQuestions = req.body.numOfQuestions;
 	var responses = req.body.responses;
 	var userId = req.session.userID;
+	// console.log('IMPORTANT', userId);
 	return knex('categories').select().where('category_name', category)
 	.then(function(category) {
-		console.log('hey', category);
+		// console.log('hey', category);
 		return knex('games').insert({category_id: category[0].id, score: score, num_questions: numQuestions }).returning('id')
 	}).then(function(gameId) {
-		console.log(gameId);
+		// console.log(gameId);
 		return knex('user_games').insert({user_id: userId, game_id: gameId[0]}).returning('game_id')
 	}).then(function(gameId) {
-		console.log(gameId);
+		// console.log(gameId);
 		var promises = [];
 		for (var i = 0; i < responses.length; i++) {
 			promises.push(knex('game_questions').insert({game_id: gameId[0], question_id: responses[i].questionId}));

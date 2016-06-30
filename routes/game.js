@@ -4,6 +4,8 @@ var cookieParser = require('cookie-parser');
 var cookieSession = require('cookie-session');
 var knex = require('../db/knex.js');
 var bodyParser = require('body-parser');
+var server = require('http').Server(router); 
+var io = require('socket.io')(server); 
 
 router.use(bodyParser.json());
 router.use(bodyParser.urlencoded({ extended: false }));
@@ -27,16 +29,31 @@ router.get('/mystats', function(req, res, next) {
 				curGame.score = data[i].score;
 				games.push(curGame);
 			}
-			console.log(games);
+			// console.log(games);
 			res.render('mystats', {games: games, user:user});
+		}).catch(function(error) {
+			console.log(error);
 		})
 
 	
 });
 
 router.get('/start', function(req, res, next) {
-  	res.render('game');
+  	return knex('categories').select('category_name')
+  	.then(function(category) {
+  		console.log(category);
+  		res.render('game', {category: category});
+  	}).catch(function (error) {
+  		console.log(error);
+  	})
+  	
 });
+
+router.get('/gameroom', function(req,res) {
+	// io.on('connection', function(socket){
+		res.render('gameStaging', {layout: 'gameRoomLayout'});
+	// })
+})
 
 
 module.exports = router;
