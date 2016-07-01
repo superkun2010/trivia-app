@@ -61,7 +61,7 @@ app.use(cookieSession({
 passport.use(new FacebookStrategy({
     clientID: FACEBOOK_APP_ID,
     clientSecret: FACEBOOK_APP_SECRET,
-    callbackURL: "https://git.heroku.com/trivia-junkie.git/auth/login/facebook/callback",
+    callbackURL: "https://trivia-junkie.herokuapp.com/auth/login/facebook/callback",
     enableProof: true,
     profileFields: ['id', 'emails', 'displayName']
   },
