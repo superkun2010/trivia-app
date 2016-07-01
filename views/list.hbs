@@ -1,6 +1,73 @@
+
 <div>
     <h5>Questions</h5>
     {{#each questions}}
-      <button class="btn waves-effect waves-light blue" onclick = "javascript:location.href = '/question/{{this.id}}/edit';"> Edit</button> &nbsp;&nbsp;&nbsp;{{question_text}}<br>
+      <div class="input-field col m6 modal-trigger" href="#modal{{id}}">
+        <button value="{{id}}" data-target="modal{{id}}" class="btn waves-effect waves-light blue modal-trigger">Edit</button>&nbsp;&nbsp;&nbsp;{{question_text}}<br>
+      </div>
+
+      <div id="modal{{id}}" class="modal">
+        <div class="modal-content">
+          <h4>What do you want the new question to be?</h4>
+          <input placeholder="{{question_text}}" id="question-update" type="text" class="change question">
+          <label for="new-cat">New Question</label>
+            {{#each answers}}
+            <input placeholder="{{answer_text}}" id="answers-update" type="text" class="change answer">
+            {{/each}}
+        </div>
+
+        <div class="modal-footer">
+          <a href="#!" class="modal-action modal-close waves-effect waves-red btn-flat ">Nah, I'll leave it alone</a>
+          <a id="delete-something" class="modal-action modal-close waves-effect waves-green btn-flat ">Change the question</a>
+        </div>
+      </div>
     {{/each}}
 </div>
+
+
+<script src="https://code.jquery.com/jquery-3.0.0.min.js"></script>
+<script src='/javascripts/modal.js'> </script>
+<script src='/javascripts/addQuestions.js'> </script>
+<script>
+  $('body').on('keydown', function(e){
+    console.log(e)
+    if(e.keyCode == 13){
+      e.preventDefault();
+    }
+  })
+  $("#delete-something").click(function (e) {
+    $.ajax({
+      url: "/question/{{categories.id}}",
+      method: "DELETE",
+      success: function() {
+        console.log("AHHHHHH")
+        window.location = "/question"
+      }
+    })
+  })
+  $("#question-update").click(function (e) {
+    $.ajax({
+      url: "/question/{{question.id}}",
+      method: "PUT",
+      data: {
+        question_name: $("#question-update").val()
+        
+
+      },
+      success: function() {
+        console.log("CHANGE DAMNIT");
+        window.location = "/question"
+      }
+    })
+  })
+
+  // $("#{{question_id}}").click(function (event) {
+  //   $.ajax({
+  //     url: "/{{question.id}}/edit",
+  //     method: "GET",
+  //     success: function (data) {
+  //
+  //     }
+  //   })
+  })
+</script>
