@@ -134,19 +134,26 @@ io.on('connection', function(socket){
 
   socket.on('challenge', function(challengeInfo) {
     console.log("received", challengeInfo);
-    var userName = '';
-    for (var i = 0; i < players.length; i++) {
+    // console.log(players);
+
+    var curGame = new Game();
+
+     for (var i = 0; i < players.length; i++) {
       if (players[i].socketId == challengeInfo.socketId) {
-        userName = players[i].username;  
+        curGame.userTwo = players[i].username;  
       }
     }
 
-    var curGame = new Game();
-    curGame.category = challengeInfo.category;
-    curGame.userOne = userName;
-    curGame.userOneSocketId = challengeInfo.socketId;
-    curGame.numQuest = challengeInfo.numQuest;
+    for (var j = 0; j < players.length; j++) {
+      if (players[j].socketId == socket.id) {
+        curGame.userOne = players[j].username;  
+      }
+    }
 
+    curGame.category = challengeInfo.category;
+    curGame.userOneSocketId = socket.id;
+    curGame.numQuest = challengeInfo.numQuest;
+    curGame.userTwoSocketId = challengeInfo.socketId;
 
     knex('questions').join('category_questions', 'questions.id', 'category_questions.question_id')
       .join('categories', 'category_questions.category_id', 'categories.id')
@@ -179,26 +186,18 @@ io.on('connection', function(socket){
 
         var alphabet = 'abcedfghijklmnopqrstuvwxyz'
         curGame.gameRoomId = '/' + alphabet[games.length];
-
-        var gameRoom = io.of(curGame.gameRoomId);
+        // var gameRoom = io.of(curGame.gameRoomId);
         console.log('curGame', curGame);
+        games.push(curGame);
         socket.broadcast.to(challengeInfo.socketId).emit('challenger', curGame);
       }).catch(function(error) {
         console.log(error);
       })
-  })
-
-    
-
+    })
   })
 
   socket.on('accept-challenge', function(curGame) {
-    curGame.userTwoSocketId = socket.id;
     console.log('accept', curGame);
-    // var nsp = io.of('/my-namespace');
-    // nsp.on('connection', function(socket){
-    // console.log('someone connected');
-    // });
   })
 
   socket.on('disconnect', function () {
@@ -214,7 +213,6 @@ io.on('connection', function(socket){
       // io.sockets.broadcast[players[players.length-1].socketId].emit('attendance', players);
       io.emit('attendance', players);
   });
-
 
 
 });
