@@ -52,21 +52,55 @@ router.post('/', function(req, res, next) {
 
 //read
 router.get('/list', function(req, res, next) {
-    console.log('got here', req)
-    knex('questions').select().orderBy('id').returning('id')
-    .then(function(data) {
+    console.log('got here')
+    knex('questions').select()
+    .then(function (questions) {
+      var questionIds = []
+      for (var i = 0; i < questions.length; i++) {
+        questionIds.push(questions[i].id);
+      }
+      knex('answers').select()
+      .whereIn("question_id", questionIds)
+      .then(function(data) {
+        console.log(data)
+        // put array of answers as a value on each question in the questions array
+        // questions = [
+        //   {
+        //     text : "something",
+        //     answers : [
+        //       {
+        //         text: "an answer",
+        //         correct: true
+        //       }
+        //     ]
+        //   }
+        // ]
+        for (var i = 0; i < questions.length; i++) {
+          questions[i].answers = [];
+        }
+        for (var i = 0; i < questions.length; i++) {
+          for (var j = 0; j < data.length; j++) {
+            if (data[j].question_id == questions[i].id) {
+              questions[i].answers.push(data[j]);
+            }
+          }
+        }
+        console.log(questions)
         res.render('list', {
-            questions: data
+            data: data,
+            questions: questions,
         })
-    })
-})
+      })
+    });
+});
 
 //get question by id
 router.get('/:id/edit', function (req, res, next) {
     console.log('got here')
-    knex('questions').select().where('id','=',req.params.id)
+    knex('questions').select().join('answers','questions.id', 'answers.question_id').where('id','=',req.params.id)
     .then(function(data) {
-        res.render('question', {questions: data[0]});
+        console.log("SUCCESS", data)
+        res.send(data);
     })
 });
 
