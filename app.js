@@ -111,6 +111,10 @@ app.use(function(req, res, next){
 var players = [];
 
 io.on('connection', function(socket){
+  
+  var category = "";
+  var numOfQuestions = "";
+
   console.log('connected');
   if (userForSocket) { 
     socket.on('enter-room', function(hello) {
@@ -123,8 +127,30 @@ io.on('connection', function(socket){
       // io.sockets.connected[players[players.length-1].socketId].emit('attendance', players);
       io.emit('attendance', players);
     })
+  }
 
-    socket.on('disconnect', function () {
+  socket.on('challenge', function(challengedSocketId) {
+    console.log("received", challengedSocketId);
+    // console.log(socket.id);
+    var userName = '';
+    for (var i = 0; i < players.length; i++) {
+      if (players[i].socketId == challengedSocketId) {
+        userName = players[i].username;  
+      }
+    }
+    //GET THE CATEGORY AND QUESTIONS
+    socket.broadcast.to(challengedSocketId).emit('challenger', userName);
+  })
+
+  socket.on('accept-challenge', function(accept) {
+    console.log('accept', accept);
+    //create ROOM
+    //create PATH
+    //I WILL STILL NEED TO CREATE A ROUTE FOR THE PATH FOR BOTH TO MEET ON
+    //BUILD GAME
+  })
+
+  socket.on('disconnect', function () {
         console.log('exit', socket.id);
         var socketIdArray = [];
         for (var i = 0; i < players.length; i++) {
@@ -136,8 +162,10 @@ io.on('connection', function(socket){
         console.log(players);
       // io.sockets.broadcast[players[players.length-1].socketId].emit('attendance', players);
       io.emit('attendance', players);
-    });
-  }
+  });
+
+
+
 });
 //END -- SOCKET CODE
 
