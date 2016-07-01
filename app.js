@@ -193,14 +193,7 @@ io.on('connection', function(socket){
       }).catch(function(error) {
         console.log(error);
       })
-<<<<<<< HEAD
-  })
-
-
-
-=======
     })
->>>>>>> 2d44a6d5e95b6f6d2085e6458fa7c9a0c6fca963
   })
 
   socket.on('accept-challenge', function(curGame) {
