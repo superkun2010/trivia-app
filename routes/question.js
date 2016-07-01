@@ -3,6 +3,14 @@ var router = express.Router();
 var knex = require('../db/knex');
 var bodyParser = require('body-parser');
 
+router.use('*', function(req,res,next) {
+  if (req.session.username) {
+    next();
+  } else {
+    res.redirect('/auth/login');
+  }
+});
+
 router.get('/', function(req, res, next) {
     return knex('categories').select()
     .then(function(categories) {
