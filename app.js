@@ -26,8 +26,8 @@ var Question = require('./models/question.js');
 
 var app = express();
 
-var server = require('http').Server(app); 
-var io = require('socket.io')(server); 
+var server = require('http').Server(app);
+var io = require('socket.io')(server);
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -61,7 +61,7 @@ app.use(cookieSession({
 passport.use(new FacebookStrategy({
     clientID: FACEBOOK_APP_ID,
     clientSecret: FACEBOOK_APP_SECRET,
-    callbackURL: "http://localhost:3000/auth/login/facebook/callback",
+    callbackURL: "https://git.heroku.com/trivia-junkie.git/auth/login/facebook/callback",
     enableProof: true,
     profileFields: ['id', 'emails', 'displayName']
   },
@@ -115,12 +115,12 @@ var players = [];
 var games = [];
 
 io.on('connection', function(socket){
-  
+
   var category = "";
   var numOfQuestions = "";
 
   console.log('connected');
-  if (userForSocket) { 
+  if (userForSocket) {
     socket.on('enter-room', function(hello) {
       // console.log('HELLO', userForSocket);
       var curPlayer = {};
@@ -137,7 +137,7 @@ io.on('connection', function(socket){
     var userName = '';
     for (var i = 0; i < players.length; i++) {
       if (players[i].socketId == challengeInfo.socketId) {
-        userName = players[i].username;  
+        userName = players[i].username;
       }
     }
 
@@ -188,7 +188,7 @@ io.on('connection', function(socket){
       })
   })
 
-    
+
 
   })
 
