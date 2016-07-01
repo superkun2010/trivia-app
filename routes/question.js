@@ -95,13 +95,23 @@ router.get('/list', function(req, res, next) {
 });
 
 //get question by id
-router.get('/:id/edit', function (req, res, next) {
-    console.log('got here')
-    knex('questions').select().join('answers','questions.id', 'answers.question_id').where('id','=',req.params.id)
-    .then(function(data) {
-        console.log("SUCCESS", data)
-        res.send(data);
-    })
+
+router.put('/list/:id', (req, res, next) => {
+  console.log('!!!!!!' + req.body + " in between body & params " + req.params.id);
+  // console.dir(req.body);
+  // knex('categories').update({question_text: req.body.question_text}).where({"id": req.params.id})
+  // .then( (data) => {
+  //   console.log(data);
+  //   res.send('SUCCESS');
+  // })
 });
+// router.get('/:id/edit', function (req, res, next) {
+//     console.log('got here')
+//     knex('questions').select().join('answers','questions.id', 'answers.question_id').where('id','=',req.params.id)
+//     .then(function(data) {
+//         console.log("SUCCESS", data)
+//         res.send(data);
+//     })
+// });
 
 module.exports = router;

@@ -9,18 +9,21 @@
       <div id="modal{{id}}" class="modal">
         <div class="modal-content">
           <h4>What do you want the new question to be?</h4>
-          <input placeholder="{{question_text}}" id="question-update" type="text" class="change question">
-          <label for="new-cat">New Question</label>
+          <form>
+          <input type='hidden' value={{id}} >
+          <input placeholder="{{question_text}}" id="question-update{{id}}" type="text" class="change question" required>
+          <label for="new-question">New Question</label>
             {{#each answers}}
-            <input placeholder="{{answer_text}}" id="answers-update" type="text" class="change answer">
+            <input placeholder="{{answer_text}}" id=answers"{{id}}" type="text" class="change-answer" required>
             {{/each}}
         </div>
 
         <div class="modal-footer">
           <a href="#!" class="modal-action modal-close waves-effect waves-red btn-flat ">Nah, I'll leave it alone</a>
-          <a id="delete-something" class="modal-action modal-close waves-effect waves-green btn-flat ">Change the question</a>
+          <a id="change-something" class="modal-action modal-close waves-effect waves-green btn-flat ">Change the question</a>
         </div>
       </div>
+    </form>
     {{/each}}
 </div>
 
@@ -35,31 +38,21 @@
       e.preventDefault();
     }
   })
-  $("#delete-something").click(function (e) {
+  $("#change-something").click(function (e) {
     $.ajax({
-      url: "/question/{{categories.id}}",
-      method: "DELETE",
-      success: function() {
-        console.log("AHHHHHH")
-        window.location = "/question"
-      }
-    })
-  })
-  $("#question-update").click(function (e) {
-    $.ajax({
-      url: "/question/{{question.id}}",
+      url: "/list/{{questions.id}}",
       method: "PUT",
       data: {
-        question_name: $("#question-update").val()
-        
-
+        question_text: $("question-update{{id}}").val(),
+        answer_text: $("#change-answers").val()
       },
       success: function() {
-        console.log("CHANGE DAMNIT");
-        window.location = "/question"
+        console.log("CHANGE again DAMNIT");
+        window.location = "/list"
       }
     })
   })
+
 
   // $("#{{question_id}}").click(function (event) {
   //   $.ajax({
