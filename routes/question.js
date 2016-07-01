@@ -63,7 +63,6 @@ router.get('/list', function(req, res, next) {
 
 //get question by id
 router.get('/:id/edit', function (req, res, next) {
-    console.log('got here')
     knex('questions').select().where('id','=',req.params.id)
     .then(function(data) {
         res.render('question', {questions: data[0]});
