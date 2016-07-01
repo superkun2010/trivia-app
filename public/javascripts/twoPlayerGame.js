@@ -57,7 +57,6 @@ $(function() {
  	acceptButton.attr({class:"btn waves-effect waves-light red", type:"submit", name:"action"});
  	acceptButton.on('click', function(event) {
  		event.preventDefault();
- 		gameInfo.userTwo = $('#theUser').html();
  		console.log('accept', theGame);
  		gameSocket = io(theGame.gameRoomId);
  		socket.emit('accept-challenge', theGame);
