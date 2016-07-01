@@ -1,9 +1,36 @@
 body {
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  font: 14px "Droid Serif", Helvetica, Arial, sans-serif;
+  color: #6B6B6B;
 }
 
 a {
   color: #00B7FF;
+}
+
+h3 {
+    font-family: "Droid Serif";
+    font-weight: bold;
+    font-size: 40px;
+}
+
+h1 {
+    font-family: "Droid Serif";
+    color: #2196F3;
+}
+
+#question {
+    font-family: "Droid Serif";
+    font-weight: bold;
+    font-size: 40px;
+    color: #6B6B6B
+}
+
+#title-category {
+    font-family: "Droid Serif";
+    font-size:  30px;
+    color: #2196F3;
+    text-align: right;
+    padding-right: 25%;
 }
 
 #auth-login {
@@ -21,6 +48,63 @@ a {
 
 #true-false {
     margin-bottom: 30px;
+}
+
+#correct-box {
+    font-family: "Droid Serif";
+    font-size: 30px;
+    padding-top: 40px;
+}
+
+/* label focus color */
+.input-field input[type=text]:focus + label {
+     color: #2196F3;
+}
+
+.input-field input[type=password]:focus + label {
+     color: #2196F3;
+}
+
+.input-field input[type=email]:focus + label {
+     color: #2196F3;
+}
+
+/* label underline focus color */
+.input-field input[type=text]:focus {
+     border-bottom: 1px solid #2196F3;
+     box-shadow: 0 1px 0 0 #2196F3;
+}
+
+.input-field input[type=email]:focus {
+     border-bottom: 1px solid #2196F3;
+     box-shadow: 0 1px 0 0 #2196F3;
+}
+
+.input-field input[type=password]:focus {
+     border-bottom: 1px solid #2196F3;
+     box-shadow: 0 1px 0 0 #2196F3;
+}
+
+[type="radio"]:checked+label:after, [type="radio"].with-gap:checked+label:after {
+    background-color: #2196F3;
+    border: 2px solid #2196F3;
+}
+
+/* icon prefix focus color */
+.input-field label {
+    color: #6B6B6B;
+}
+
+.input-field .prefix.active {
+     color: #6B6B6B;
+}
+
+[type="radio"]:checked+label:after, [type="radio"].with-gap:checked+label:after {
+    color: black;
+}
+
+.dropdown-content li>a, .dropdown-content li>span {
+    color: #2196F3;
 }
 
 .main {
