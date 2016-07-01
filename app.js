@@ -176,8 +176,13 @@ io.on('connection', function(socket){
             }
           }
         }
+
+        var alphabet = 'abcedfghijklmnopqrstuvwxyz'
+        curGame.gameRoomId = '/' + alphabet[games.length];
+
+        var gameRoom = io.of(curGame.gameRoomId);
         console.log('curGame', curGame);
-        socket.broadcast.to(challengeInfo.socketId).emit('challenger', userName);
+        socket.broadcast.to(challengeInfo.socketId).emit('challenger', curGame);
       }).catch(function(error) {
         console.log(error);
       })
@@ -187,12 +192,13 @@ io.on('connection', function(socket){
 
   })
 
-  socket.on('accept-challenge', function(accept) {
-    console.log('accept', accept);
-    //create ROOM
-    //create PATH
-    //I WILL STILL NEED TO CREATE A ROUTE FOR THE PATH FOR BOTH TO MEET ON
-    //BUILD GAME
+  socket.on('accept-challenge', function(curGame) {
+    curGame.userTwoSocketId = socket.id;
+    console.log('accept', curGame);
+    // var nsp = io.of('/my-namespace');
+    // nsp.on('connection', function(socket){
+    // console.log('someone connected');
+    // });
   })
 
   socket.on('disconnect', function () {

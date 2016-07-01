@@ -1,4 +1,5 @@
 
+'use strict'
 
 $(document).ready(function() {
     $('select').material_select();
@@ -6,7 +7,8 @@ $(document).ready(function() {
 
 $(function() {
   var socket = io();
-  
+  var gameSocket;
+  var theGame = {};
   socket.emit('enter-room');
 
   socket.on('attendance', function(players) {
@@ -39,13 +41,14 @@ $(function() {
 	}
   })
 
-  socket.on('challenger', function(challengerUserName) {
-  	console.log('challenger', challengerUserName);
-  	// var challengerName = "'#" + challengerUserName + "'";
+  socket.on('challenger', function(gameInfo) {
+  	console.log('challenger', gameInfo);
+  	theGame = gameInfo;
+  	// var challengerName = "'#" + gameInfo + "'";
   	// console.log("working", challengerName);
-  	// $('*[data="' + challengerUserName + '"]').remove();
+  	// $('*[data="' + gameInfo + '"]').remove();
  	// console.log(challengerButton);
- 	var challengeText = "You have been challenged by " + challengerUserName;
+ 	var challengeText = "You have been challenged by " + gameInfo.userOne;
  	var challenger = $('<p>').addClass('valign').html(challengeText);
  	var challengerDiv = $('<div>').addClass('col m8 valign-wrapper');
  	challengerDiv.append(challenger);
@@ -54,7 +57,11 @@ $(function() {
  	acceptButton.attr({class:"btn waves-effect waves-light red", type:"submit", name:"action"});
  	acceptButton.on('click', function(event) {
  		event.preventDefault();
- 		socket.emit('accept-challenge', 'ACCEPT');
+ 		gameInfo.userTwo = $('#theUser').html();
+ 		console.log('accept', theGame);
+ 		gameSocket = io(theGame.gameRoomId);
+ 		socket.emit('accept-challenge', theGame);
+ 		socket.disconnect();
  	})
  	var acceptButtonDiv = $('<div>').addClass('valign');
  	var valignDiv = $('<div>').addClass('col m4 valign-wrapper');
@@ -64,6 +71,6 @@ $(function() {
   })
 
   socket.on('game-start', function(path) {
-  	var hrefVal = path;
+ 
   })
 });
