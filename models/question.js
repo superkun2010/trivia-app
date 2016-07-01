@@ -3,6 +3,8 @@ var Question = function (config) {
 		config = {};
 	}
 	this.questionText = config.questionText || null;
-	this.questionType = config.questionType || null;
+	this.questionId = config.questionId || null;
 	this.answers = config.answers || [];
 }
+
+module.exports = Question;

@@ -54,7 +54,7 @@ router.get('/gameroom', function(req,res) {
 
 	return knex('categories').select('category_name')
   	.then(function(category) {
-  		console.log(category);
+  		// console.log(category);
   		res.render('gameStaging', {layout: 'gameRoomLayout', category: category});
   	}).catch(function (error) {
   		console.log(error);

@@ -21,6 +21,9 @@ var cookieSession = require('cookie-session');
 var FacebookStrategy = require('passport-facebook').Strategy;
 var passport = require('passport');
 
+var Game = require('./models/game.js');
+var Question = require('./models/question.js');
+
 var app = express();
 
 var server = require('http').Server(app); 
@@ -107,14 +110,113 @@ app.use(function(req, res, next){
 });
 
 //START ---- SOCKET CODE
+
+var players = [];
+var games = [];
+
 io.on('connection', function(socket){
+  
+  var category = "";
+  var numOfQuestions = "";
+
   console.log('connected');
-  if (userForSocket) {
+  if (userForSocket) { 
     socket.on('enter-room', function(hello) {
-      console.log('HELLO', userForSocket);
-      io.emit('entrance', userForSocket);
+      // console.log('HELLO', userForSocket);
+      var curPlayer = {};
+      curPlayer.socketId = socket.id;
+      curPlayer.username = userForSocket;
+      players.push(curPlayer);
+      console.log(players);
+      io.emit('attendance', players);
     })
   }
+
+  socket.on('challenge', function(challengeInfo) {
+    console.log("received", challengeInfo);
+    var userName = '';
+    for (var i = 0; i < players.length; i++) {
+      if (players[i].socketId == challengeInfo.socketId) {
+        userName = players[i].username;  
+      }
+    }
+
+    var curGame = new Game();
+    curGame.category = challengeInfo.category;
+    curGame.userOne = userName;
+    curGame.userOneSocketId = challengeInfo.socketId;
+    curGame.numQuest = challengeInfo.numQuest;
+
+
+    knex('questions').join('category_questions', 'questions.id', 'category_questions.question_id')
+      .join('categories', 'category_questions.category_id', 'categories.id')
+      .select().where('category_name', curGame.category).orderBy(knex.raw('RANDOM()')).limit(curGame.numQuest).pluck('question_id')
+      .then(function (data) {
+        knex('questions').select().join('answers', 'questions.id', 'answers.question_id').whereIn('question_id', data)
+      .then(function (data) {
+        // console.log('test', data);
+        var questionIds = []
+        for (var i = 0; i < data.length; i++ ) {
+          if (questionIds.indexOf(data[i].question_id) == -1) {
+            questionIds.push(data[i].question_id);
+            var curQuestion = new Question();
+            curQuestion.questionText = data[i].question_text;
+            curQuestion.questionId = data[i].question_id;
+            curGame.questions.push(curQuestion);
+          }
+        }
+        for (var i = 0; i < curGame.questions.length; i++) {
+          for (var j = 0; j < data.length; j++) {
+            if (curGame.questions[i].questionId == data[j].question_id) {
+              var curAnswer = {};
+              curAnswer.correct = data[j].answer_bool;
+              curAnswer.text = data[j].answer_text;
+              curAnswer.id = data[j].id;
+              curGame.questions[i].answers.push(curAnswer);
+            }
+          }
+        }
+
+        var alphabet = 'abcedfghijklmnopqrstuvwxyz'
+        curGame.gameRoomId = '/' + alphabet[games.length];
+
+        var gameRoom = io.of(curGame.gameRoomId);
+        console.log('curGame', curGame);
+        socket.broadcast.to(challengeInfo.socketId).emit('challenger', curGame);
+      }).catch(function(error) {
+        console.log(error);
+      })
+  })
+
+    
+
+  })
+
+  socket.on('accept-challenge', function(curGame) {
+    curGame.userTwoSocketId = socket.id;
+    console.log('accept', curGame);
+    // var nsp = io.of('/my-namespace');
+    // nsp.on('connection', function(socket){
+    // console.log('someone connected');
+    // });
+  })
+
+  socket.on('disconnect', function () {
+        console.log('exit', socket.id);
+        var socketIdArray = [];
+        for (var i = 0; i < players.length; i++) {
+          socketIdArray.push(players[i].socketId);
+        }
+        var spliceIndex = socketIdArray.indexOf(socket.id);
+        console.log(spliceIndex);
+        players.splice(spliceIndex,1);
+        console.log(players);
+      // io.sockets.broadcast[players[players.length-1].socketId].emit('attendance', players);
+      io.emit('attendance', players);
+  });
+
+
+
 });
 //END -- SOCKET CODE
 
