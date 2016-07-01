@@ -9,6 +9,14 @@ const router = express.Router();
 
 /* GET users listing. */
 
+router.use('*', function(req,res,next) {
+  if (req.session.username) {
+    next();
+  } else {
+    res.redirect('/auth/login');
+  }
+});
+
 router.get('/', (req, res, next) => {
   knex('categories').select()
   .then( (categories) => {

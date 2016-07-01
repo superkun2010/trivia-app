@@ -10,6 +10,15 @@ var user = '';
 router.use(bodyParser.json());
 router.use(bodyParser.urlencoded({ extended: false }));
 /* GET users listing. */
+
+router.use('*', function(req,res,next) {
+	if (req.session.username) {
+		next();
+	} else {
+		res.redirect('/auth/login');
+	}
+});
+
 router.get('/mystats', function(req, res, next) {
 	var user = req.session.username;
 	var games = [];
