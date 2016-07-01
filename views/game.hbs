@@ -10,7 +10,7 @@
                 <label for="numOfQuestions">Number of Questions</label>
             </div> -->
                 <div class="input-field col m6">
-                    <select name="category" id="category" >
+                    <select name="category" id="category" required>
                         <option value="" disabled selected>Choose your Category</option>
                         {{#each category}}
                         <option value="{{category_name}}">{{category_name}}</option>
@@ -19,7 +19,7 @@
                     <label for="category">Category</label>
                 </div>
                 <div class="input-field col m6">
-                      <select name="numOfQuestions" id="num-of-questions" >
+                      <select name="numOfQuestions" id="num-of-questions" required>
                           <option value="" disabled selected># of Questions</option>
                           <option value="20">20</option>
                           <option value="15">15</option>

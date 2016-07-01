@@ -21,6 +21,9 @@ var cookieSession = require('cookie-session');
 var FacebookStrategy = require('passport-facebook').Strategy;
 var passport = require('passport');
 
+var Game = require('./models/game.js');
+var Question = require('./models/question.js');
+
 var app = express();
 
 var server = require('http').Server(app); 
@@ -109,6 +112,7 @@ app.use(function(req, res, next){
 //START ---- SOCKET CODE
 
 var players = [];
+var games = [];
 
 io.on('connection', function(socket){
   
@@ -124,22 +128,63 @@ io.on('connection', function(socket){
       curPlayer.username = userForSocket;
       players.push(curPlayer);
       console.log(players);
-      // io.sockets.connected[players[players.length-1].socketId].emit('attendance', players);
       io.emit('attendance', players);
     })
   }
 
-  socket.on('challenge', function(challengedSocketId) {
-    console.log("received", challengedSocketId);
-    // console.log(socket.id);
+  socket.on('challenge', function(challengeInfo) {
+    console.log("received", challengeInfo);
     var userName = '';
     for (var i = 0; i < players.length; i++) {
-      if (players[i].socketId == challengedSocketId) {
+      if (players[i].socketId == challengeInfo.socketId) {
         userName = players[i].username;  
       }
     }
-    //GET THE CATEGORY AND QUESTIONS
-    socket.broadcast.to(challengedSocketId).emit('challenger', userName);
+
+    var curGame = new Game();
+    curGame.category = challengeInfo.category;
+    curGame.userOne = userName;
+    curGame.userOneSocketId = challengeInfo.socketId;
+    curGame.numQuest = challengeInfo.numQuest;
+
+
+    knex('questions').join('category_questions', 'questions.id', 'category_questions.question_id')
+      .join('categories', 'category_questions.category_id', 'categories.id')
+      .select().where('category_name', curGame.category).orderBy(knex.raw('RANDOM()')).limit(curGame.numQuest).pluck('question_id')
+      .then(function (data) {
+        knex('questions').select().join('answers', 'questions.id', 'answers.question_id').whereIn('question_id', data)
+      .then(function (data) {
+        // console.log('test', data);
+        var questionIds = []
+        for (var i = 0; i < data.length; i++ ) {
+          if (questionIds.indexOf(data[i].question_id) == -1) {
+            questionIds.push(data[i].question_id);
+            var curQuestion = new Question();
+            curQuestion.questionText = data[i].question_text;
+            curQuestion.questionId = data[i].question_id;
+            curGame.questions.push(curQuestion);
+          }
+        }
+        for (var i = 0; i < curGame.questions.length; i++) {
+          for (var j = 0; j < data.length; j++) {
+            if (curGame.questions[i].questionId == data[j].question_id) {
+              var curAnswer = {};
+              curAnswer.correct = data[j].answer_bool;
+              curAnswer.text = data[j].answer_text;
+              curAnswer.id = data[j].id;
+              curGame.questions[i].answers.push(curAnswer);
+            }
+          }
+        }
+        console.log('curGame', curGame);
+        socket.broadcast.to(challengeInfo.socketId).emit('challenger', userName);
+      }).catch(function(error) {
+        console.log(error);
+      })
+  })
+
+    
+
   })
 
   socket.on('accept-challenge', function(accept) {

@@ -27,8 +27,11 @@ $(function() {
 		  	newPlayButtonDiv.on('click', function(event) {
 		  		// console.log('check', $(event.target).val());
 		  		event.preventDefault();
-		  		var socketId = $(event.target).val()
-		  		socket.emit('challenge', socketId);
+		  		var challengeInfo = {};
+		  		challengeInfo.socketId = $(event.target).val();
+		  		challengeInfo.category = $('#category').val() || 'world capitals';
+				challengeInfo.numQuest = $('#num-of-questions').val() || 5;
+		  		socket.emit('challenge', challengeInfo);
 
 		  	})
 		  	$('#player-box').append(newPlayButtonDiv);
